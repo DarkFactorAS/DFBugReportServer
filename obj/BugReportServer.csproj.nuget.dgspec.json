@@ -1,0 +1,67 @@
+{
+  "format": 1,
+  "restore": {
+    "/Users/thorh/Develop/Darkfactor-BitBucket/Services/BugReportServer/BugReportServer.csproj": {}
+  },
+  "projects": {
+    "/Users/thorh/Develop/Darkfactor-BitBucket/Services/BugReportServer/BugReportServer.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/Users/thorh/Develop/Darkfactor-BitBucket/Services/BugReportServer/BugReportServer.csproj",
+        "projectName": "BugReportServer",
+        "projectPath": "/Users/thorh/Develop/Darkfactor-BitBucket/Services/BugReportServer/BugReportServer.csproj",
+        "packagesPath": "/Users/thorh/.nuget/packages/",
+        "outputPath": "/Users/thorh/Develop/Darkfactor-BitBucket/Services/BugReportServer/obj/",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "/usr/local/share/dotnet/sdk/NuGetFallbackFolder"
+        ],
+        "configFilePaths": [
+          "/Users/thorh/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp3.1"
+        ],
+        "sources": {
+          "/Users/thorh/.nuget/NuGet/DarkFactor Nuget Server": {},
+          "/Users/thorh/Darkfactor-BitBucket/Bots/Server/NuGet/": {},
+          "/Users/thorh/NuGet": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netcoreapp3.1": {
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp3.1": {
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.AspNetCore.App": {
+              "privateAssets": "none"
+            },
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/3.1.404/RuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}
