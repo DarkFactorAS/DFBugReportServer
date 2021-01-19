@@ -1,0 +1,50 @@
+version: '3.6'
+services:
+
+  bugreportdb:
+    image: mariadb
+    networks: 
+      - net_bugreport_backend
+    container_name: bugreportserver_database
+    user: root
+    restart: always
+    environment:
+      - "MYSQL_ROOT_PASSWORD=secret"
+      - "MYSQL_DATABASE=bugreport"
+      - "MYSQL_USER=buguser"
+      - "MYSQL_PASSWORD=unicorn"
+    volumes:
+      - bugreportserver-mariadb:/var/lib/mysql
+    ports:
+      - 5507:3306
+  
+  bugreportadmin:
+    image: adminer
+    restart: always
+    networks: 
+      - net_bugreport_backend
+    environment: 
+      ADMINER_DEFAULT_SERVER: bugreportdb
+    ports:
+      - 8082:8080
+
+  bugreportserver:
+    networks: 
+      - net_bugreport_backend
+    build:
+      network: host
+      context: ./
+      dockerfile: ./Dockerfile
+    ports:
+      - "5200:80"
+    depends_on: 
+      - bugreportdb
+
+networks:
+  net_bugreport_backend:
+    name: bugreport_backend
+
+volumes:
+  # docker volume create bugreportserver-mariadb
+  bugreportserver-mariadb:
+    external: true  
