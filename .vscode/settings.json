@@ -1,0 +1,7 @@
+// Workspace settings
+{
+    "files.exclude": {
+        "bin": true,
+        "obj": true
+    }
+}
