@@ -12,6 +12,7 @@ using DFCommonLib.Config;
 using DFCommonLib.Utils;
 using DFCommonLib.Logger;
 using BugReportServer.Repository;
+using BugReportServer.Provider;
 
 namespace BugReportServer
 {
@@ -36,6 +37,7 @@ namespace BugReportServer
                     .LogToEvent(DFLogLevel.ERROR, AppName);
                 ;
 
+                services.AddTransient<IBugReportProvider, BugReportProvider>();
                 services.AddTransient<IBugReportRepository, BugReportRepository>();
                 services.AddTransient<IConfigurationHelper, ConfigurationHelper>();
 

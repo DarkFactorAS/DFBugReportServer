@@ -9,7 +9,7 @@ namespace BugReportServer.Repository
 {
     public interface IBugReportRepository
     {
-        string SaveBugReport(BugReportData bugReportData);
+        uint SaveBugReport(BugReportData bugReportData);
     }
 
     public class BugReportRepository : IBugReportRepository
@@ -27,7 +27,7 @@ namespace BugReportServer.Repository
             _logger = logger;
         }
 
-        public string SaveBugReport(BugReportData bugReportData)
+        public uint SaveBugReport(BugReportData bugReportData)
         {
             var token = CreateToken();
 
@@ -41,7 +41,25 @@ namespace BugReportServer.Repository
                 cmd.AddParameter("@email", bugReportData.email);
                 cmd.ExecuteNonQuery();
             }
-            return token;
+
+            return GetId();
+        }
+
+        private uint GetId()
+        {
+            var sql = @"SELECT LAST_INSERT_ID() as id";
+            using (var cmd = _connection.CreateCommand(sql))
+            {
+                using (var reader = cmd.ExecuteReader())
+                {
+                    if (reader.Read())
+                    {
+                        uint id = Convert.ToUInt32(reader["id"]);
+                        return id;
+                    }
+                }
+            }
+            return 0;
         }
 
         private string CreateToken()

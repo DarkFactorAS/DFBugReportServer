@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
 using BugReportServer.Model;
-using BugReportServer.Repository;
+using BugReportServer.Provider;
 
 namespace BugReportServer.Controllers
 {
@@ -14,20 +14,18 @@ namespace BugReportServer.Controllers
     [Route("[controller]")]
     public class BugReportController : ControllerBase
     {
-        ILogger<BugReportController> _logger;
-        IBugReportRepository _repository;
+        IBugReportProvider _provider;
 
-        public BugReportController(ILogger<BugReportController> logger, IBugReportRepository repository)
+        public BugReportController(IBugReportProvider provider)
         {
-            _logger = logger;
-            _repository = repository;
+            _provider = provider;
         }
 
         [HttpPut]
         [Route("ReportBug")]
-        public string ReportBug(BugReportData bugReportData)
+        public BugReponseData ReportBug(BugReportData bugReportData)
         {
-            return _repository.SaveBugReport(bugReportData);
+            return _provider.ReportBug(bugReportData);
         }
     }
 }

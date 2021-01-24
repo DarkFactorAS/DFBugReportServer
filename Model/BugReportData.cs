@@ -5,19 +5,13 @@ namespace BugReportServer.Model
 {
     public class BugReportData
     {
+        public uint clientBugId{ get; set;}
         public string title { get; set; }
         public string description { get; set; }
         public string email { get; set; }
 
         public BugReportData()
         {
-        }
-
-        public BugReportData(string title, string description, string email)
-        {
-            this.title = title;
-            this.description = description;
-            this.email = email;
         }
     }
 }
