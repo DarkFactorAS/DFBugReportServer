@@ -6,7 +6,7 @@
           "DatabaseConnections": [
             {
               "ConnectionType": "LOCAL",
-              "ConnectionString": "Server=bugreportdb;Port=5507;Database=bugreport;Uid=buguser;Pwd=unicorn;SslMode=Preferred;"
+              "ConnectionString": "Server=localhost;Port=5507;Database=bugreport;Uid=buguser;Pwd=unicorn;SslMode=Preferred;"
             }
           ]
         }
