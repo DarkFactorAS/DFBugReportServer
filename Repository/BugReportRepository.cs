@@ -31,14 +31,15 @@ namespace BugReportServer.Repository
         {
             var token = CreateToken();
 
-            var sql = @"INSERT INTO bugreports (token, title,description,email,created,updated)
-                VALUES ( @token, @title, @description, @email, now(), now() )";
+            var sql = @"INSERT INTO bugreports (title, message,email,clientName, clientVersion,created,updated)
+                VALUES ( @title, @message, @email, @clientName, @clientVersion, now(), now() )";
             using (var cmd = _connection.CreateCommand(sql))
             {
-                cmd.AddParameter("@token", token);
                 cmd.AddParameter("@title", bugReportData.title);
-                cmd.AddParameter("@description", bugReportData.description);
+                cmd.AddParameter("@message", bugReportData.message);
                 cmd.AddParameter("@email", bugReportData.email);
+                cmd.AddParameter("@clientName", bugReportData.clientName);
+                cmd.AddParameter("@clientVersion", bugReportData.clientVersion);
                 cmd.ExecuteNonQuery();
             }
 

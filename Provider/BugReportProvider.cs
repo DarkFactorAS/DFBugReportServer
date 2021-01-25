@@ -28,8 +28,10 @@ namespace BugReportServer.Provider
         private BugReportData VerifyFields(BugReportData bugReportData)
         {
             bugReportData.title = VerifyString(bugReportData.title);
-            bugReportData.description = VerifyString( bugReportData.description );
+            bugReportData.message = VerifyString( bugReportData.message );
             bugReportData.email = VerifyString( bugReportData.email );
+            bugReportData.clientName = VerifyString( bugReportData.clientName );
+            bugReportData.clientVersion = VerifyString( bugReportData.clientVersion );
             return bugReportData;
         }
 
