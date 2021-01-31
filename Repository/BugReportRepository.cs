@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using DFCommonLib.DataAccess;
 using DFCommonLib.Logger;
 
@@ -10,6 +9,7 @@ namespace BugReportServer.Repository
     public interface IBugReportRepository
     {
         uint SaveBugReport(BugReportData bugReportData);
+        void LinkFileToReport(uint serverBugId, string filename);
     }
 
     public class BugReportRepository : IBugReportRepository
@@ -29,8 +29,6 @@ namespace BugReportServer.Repository
 
         public uint SaveBugReport(BugReportData bugReportData)
         {
-            var token = CreateToken();
-
             var sql = @"INSERT INTO bugreports (title, message,email,clientName, clientVersion,created,updated)
                 VALUES ( @title, @message, @email, @clientName, @clientVersion, now(), now() )";
             using (var cmd = _connection.CreateCommand(sql))
@@ -45,6 +43,18 @@ namespace BugReportServer.Repository
 
             return GetId();
         }
+
+        public void LinkFileToReport(uint serverBugId, string filename)
+        {
+            var sql = @"INSERT INTO bugreportfiles (bugId, filename) VALUES ( @bugId, @filename )";
+            using (var cmd = _connection.CreateCommand(sql))
+            {
+                cmd.AddParameter("@bugId", serverBugId);
+                cmd.AddParameter("@filename", filename);
+                cmd.ExecuteNonQuery();
+            }
+        }
+
 
         private uint GetId()
         {
@@ -61,12 +71,6 @@ namespace BugReportServer.Repository
                 }
             }
             return 0;
-        }
-
-        private string CreateToken()
-        {
-            string token = Guid.NewGuid().ToString();
-            return token;
         }
     }
 }

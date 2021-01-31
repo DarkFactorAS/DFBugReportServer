@@ -27,5 +27,12 @@ namespace BugReportServer.Controllers
         {
             return _provider.ReportBug(bugReportData);
         }
+
+        [HttpPut]
+        [Route("AttachFile")]
+        public bool AttachFile(BugReportFileData fileData)
+        {
+            return _provider.AttachFile(fileData);
+        }
     }
 }

@@ -11,6 +11,14 @@ CREATE TABLE `bugreports` (
   PRIMARY KEY (`id`)
 );
 
+DROP TABLE IF EXISTS `bugreportfiles`;
+CREATE TABLE `bugreportfiles` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `bugId` int(11) NOT NULL DEFAULT 0,
+  `filename` varchar(300) NOT NULL DEFAULT '',
+  PRIMARY KEY (`id`)
+);
+
 DROP TABLE IF EXISTS `logtable`;
 CREATE TABLE `logtable` (
   `id` int(11) NOT NULL AUTO_INCREMENT,

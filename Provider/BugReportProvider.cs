@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 
 using BugReportServer.Model;
 using BugReportServer.Repository;
@@ -7,6 +9,7 @@ namespace BugReportServer.Provider
     public interface IBugReportProvider
     {
         BugReponseData ReportBug(BugReportData bugReportData);
+        bool AttachFile(BugReportFileData fileData);
     }
 
     public class BugReportProvider : IBugReportProvider
@@ -23,6 +26,19 @@ namespace BugReportServer.Provider
             bugReportData = VerifyFields(bugReportData);
             uint serverId = _repository.SaveBugReport(bugReportData);
             return new BugReponseData( bugReportData.clientBugId, serverId );
+        }
+
+        public bool AttachFile(BugReportFileData fileData)
+        {
+            var ext = GetExtension(fileData.filename);
+            var token = CreateToken();
+            var diskFilename = token + "." + ext;
+
+            _repository.LinkFileToReport(fileData.serverBugId, diskFilename);
+
+            // Todo : Save to disk
+
+            return false;
         }
 
         private BugReportData VerifyFields(BugReportData bugReportData)
@@ -42,6 +58,17 @@ namespace BugReportServer.Provider
                 return input;
             }
             return "";
+        }
+
+        private string CreateToken()
+        {
+            string token = Guid.NewGuid().ToString();
+            return token;
+        }
+
+        private string GetExtension(string filename)
+        {
+            return "png";
         }
     }
 }
