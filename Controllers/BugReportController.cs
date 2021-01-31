@@ -30,7 +30,7 @@ namespace BugReportServer.Controllers
 
         [HttpPut]
         [Route("AttachFile")]
-        public bool AttachFile(BugReportFileData fileData)
+        public BugReponseFileData AttachFile(BugReportFileData fileData)
         {
             return _provider.AttachFile(fileData);
         }
