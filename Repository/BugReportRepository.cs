@@ -9,6 +9,7 @@ namespace BugReportServer.Repository
     public interface IBugReportRepository
     {
         uint SaveBugReport(BugReportData bugReportData);
+        bool IsBugReport(uint bugReportId);
         void LinkFileToReport(uint serverBugId, string filename);
     }
 
@@ -42,6 +43,23 @@ namespace BugReportServer.Repository
             }
 
             return GetId();
+        }
+
+        public bool IsBugReport(uint bugReportId)
+        {
+            var sql = @"SELECT id from bugreports where id = @bugId";
+            using (var cmd = _connection.CreateCommand(sql))
+            {
+                cmd.AddParameter("@bugId", bugReportId);
+                using (var reader = cmd.ExecuteReader())
+                {
+                    if (reader.Read())
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
         }
 
         public void LinkFileToReport(uint serverBugId, string filename)

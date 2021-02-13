@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using System.Collections.Generic;
+using DFCommonLib.Logger;
 
 using BugReportServer.Model;
 using BugReportServer.Repository;
@@ -16,10 +17,13 @@ namespace BugReportServer.Provider
     public class BugReportProvider : IBugReportProvider
     {
         IBugReportRepository _repository;
+        private const uint MAX_FILE_SIZE = 10000000; // 10.000.000 bytes
+        private readonly IDFLogger<BugReportRepository> _logger;
 
-        public BugReportProvider(IBugReportRepository repository)
+        public BugReportProvider(IBugReportRepository repository, IDFLogger<BugReportRepository> logger)
         {
             _repository = repository;
+            _logger = logger;
         }
 
         //
@@ -39,6 +43,21 @@ namespace BugReportServer.Provider
         {
             if ( fileData.serverBugId > 0 && fileData.fileId > 0 )
             {
+                // Do not allow large files
+                int len = fileData.base64data.Length;
+                if ( len > MAX_FILE_SIZE || len <= 0 )
+                {
+                    _logger.LogDebug(string.Format("File for bugreport {0} is too large {1} > {2}", fileData.serverBugId, len, MAX_FILE_SIZE));
+                    return new BugReponseFileData( fileData.serverBugId, fileData.fileId);
+                }
+
+                // Make sure the bugreport actually exist
+                if ( !_repository.IsBugReport(fileData.serverBugId))
+                {
+                    _logger.LogDebug(string.Format("Ignored file for bugreport {0} since bug does not exist", fileData.serverBugId));
+                    return new BugReponseFileData( fileData.serverBugId, fileData.fileId);
+                }
+
                 var strId = string.Format("{0}",fileData.serverBugId);
                 var ext = GetExtension(fileData.filename);
                 var token = CreateToken();
