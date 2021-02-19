@@ -13,6 +13,7 @@ using Microsoft.Extensions.Logging;
 using Swashbuckle.AspNetCore.Swagger;
 using DFCommonLib.Utils;
 using DFCommonLib.Logger;
+using DFCommonLib.DataAccess;
 
 namespace BugReportServer
 {
