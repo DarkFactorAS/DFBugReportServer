@@ -70,7 +70,8 @@ namespace BugReportServer.Provider
 
                 // Todo : Get path from config
                 var currentFolder = Directory.GetCurrentDirectory();
-                var fullPath = $"{currentFolder}/BugReports";
+                //var fullPath = $"{currentFolder}/BugReports";
+                var fullPath = $"/BugReports";
                 Directory.CreateDirectory(fullPath);
                 var fullFilePath = fullPath + "/" + diskFilename;
 

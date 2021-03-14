@@ -39,6 +39,9 @@ services:
       - "5200:80"
     depends_on: 
       - bugreportdb
+    volumes:
+      - bugreportserver-reportdisk:/BugReports
+      #- ./BugReports:/BugReports2
 
 networks:
   net_bugreport_backend:
@@ -47,4 +50,8 @@ networks:
 volumes:
   # docker volume create bugreportserver-mariadb
   bugreportserver-mariadb:
+    external: true  
+
+  # docker volume create bugreportserver-reportdisk
+  bugreportserver-reportdisk:
     external: true  
