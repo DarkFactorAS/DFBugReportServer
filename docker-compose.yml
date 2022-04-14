@@ -33,7 +33,7 @@ services:
       - net_bugreport_backend
     build:
       network: host
-      context: ./
+      context: ./Server
       dockerfile: ./Dockerfile
     ports:
       - "5200:80"
