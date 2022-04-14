@@ -1,0 +1,15 @@
+{
+    "CustomerSettings": {
+      "Customers": [
+        {
+          "Id": "BugReport",
+          "DatabaseConnections": [
+            {
+              "ConnectionType": "LOCAL",
+              "ConnectionString": "Server=bugreportdb;Port=3306;Database=bugreport;Uid=buguser;Pwd=unicorn;SslMode=Preferred;"
+            }
+          ]
+        }
+      ]
+    }
+  }
