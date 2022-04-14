@@ -31,8 +31,7 @@ namespace BugReportWeb
         {
             services.AddRazorPages();
             services.AddTransient(typeof(IBugReportProvider), typeof(BugReportProvider));
-            services.AddTransient(typeof(IBugReportRepository), typeof(BugReportRepository));
-            services.AddTransient<IConfigurationHelper, ConfigurationHelper>();
+            services.AddTransient<IConfigurationHelper, BugReportWebConfigurationHelper>();
 
             new DFServices(services)
                     .SetupLogger()

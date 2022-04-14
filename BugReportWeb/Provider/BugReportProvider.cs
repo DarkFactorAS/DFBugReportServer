@@ -1,29 +1,47 @@
 
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
-using DFCommonLib.DataAccess;
 using DFCommonLib.Logger;
+using DFCommonLib.HttpApi;
 
 namespace BugReportWeb
 {
-    public interface IBugReportProvider
+    public interface IBugReportProvider : IDFRestClient
     {
-        IList<BugReportModel> GetAllBugReports();
+        Task<BugReportListModel> GetAllBugReports();
     }
 
-    public class BugReportProvider : IBugReportProvider
+    public class BugReportProvider : DFRestClient, IBugReportProvider
     {
-        IBugReportRepository _repository;
+        private const int GET_LIST = 1;
+        private string _endpoint;
 
-        public BugReportProvider( IBugReportRepository repostory )
+        public BugReportProvider(IDFLogger<DFRestClient> logger) : base(logger)
         {
-            _repository = repostory;
+            SetEndpoint("http://localhost:5200");
         }
 
-        public IList<BugReportModel> GetAllBugReports()
+        override protected string GetModule()
         {
-            return _repository.GetAllBugReports();
+            return "BugWeb";
+        }
+
+        public void SetEndpoint(string endpoint)
+        {
+            _endpoint = endpoint;
+        }
+
+        override protected string GetHostname()
+        {
+            return _endpoint;
+        }
+
+        public async Task<BugReportListModel> GetAllBugReports()
+        {
+            var data = await GetJsonData<BugReportListModel>(GET_LIST,"GetList");
+            return (BugReportListModel) data;
         }
     }
 }

@@ -13,7 +13,7 @@ namespace BugReportWeb.Pages
         private readonly ILogger<IndexModel> _logger;
         private readonly IBugReportProvider _bugReportProvider;
 
-        public IList< BugReportModel > model;
+        public BugReportListModel model;
 
         public IndexModel(ILogger<IndexModel> logger, IBugReportProvider bugReportProvider)
         {
@@ -23,7 +23,8 @@ namespace BugReportWeb.Pages
 
         public void OnGet()
         {
-            model = _bugReportProvider.GetAllBugReports();
+            var data = _bugReportProvider.GetAllBugReports().Result;
+            model = data;
         }
     }
 }
