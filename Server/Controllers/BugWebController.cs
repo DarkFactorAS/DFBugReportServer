@@ -25,10 +25,17 @@ namespace BugReportServer.Controllers
         }
 
         [HttpGet]
-        [Route("GetList")]
-        public BugReportListModel GetList()
+        [Route("GetAllBugReports")]
+        public BugReportListModel GetAllBugReports()
         {
             return _provider.GetAllBugReports();
+        }
+
+        [HttpGet]
+        [Route("GetBugReport")]
+        public BugReportExtendedData GetBugReport(int bugreportId)
+        {
+            return _provider.GetBugReport(bugreportId);
         }
 
         [HttpPut]

@@ -12,7 +12,7 @@
     @foreach (var bugreport in Model.bugReportList)
     {
         <TR>
-            <TD width=50 align=center><a href="/Bugreport?id=@bugreport.clientBugId">@bugreport.clientBugId</a></TD>
+            <TD width=50 align=center><a href="/Bugreport?bugReportId=@bugreport.clientBugId">@bugreport.clientBugId</a></TD>
             <TD>&nbsp; @bugreport.title</TD>
             <TD width=100 align=center>@bugreport.created.Day @bugreport.created.Month @bugreport.created.Year </TD>
         </TR>

@@ -11,11 +11,13 @@ namespace BugReportWeb
     public interface IBugReportProvider : IDFRestClient
     {
         Task<BugReportListModel> GetAllBugReports();
+        Task<BugReportExtendedModel> GetBugReport(int bugReportId);
     }
 
     public class BugReportProvider : DFRestClient, IBugReportProvider
     {
         private const int GET_LIST = 1;
+        private const int GET_BUGREPORT = 2;
         private string _endpoint;
 
         public BugReportProvider(IDFLogger<DFRestClient> logger) : base(logger)
@@ -40,8 +42,14 @@ namespace BugReportWeb
 
         public async Task<BugReportListModel> GetAllBugReports()
         {
-            var data = await GetJsonData<BugReportListModel>(GET_LIST,"GetList");
+            var data = await GetJsonData<BugReportListModel>(GET_LIST,"GetAllBugReports");
             return (BugReportListModel) data;
+        }
+
+        public async Task<BugReportExtendedModel> GetBugReport(int bugReportId)
+        {
+            var data = await GetJsonData<BugReportExtendedModel>(GET_BUGREPORT,"GetBugReport?bugReportId=" + bugReportId);
+            return (BugReportExtendedModel) data;
         }
     }
 }

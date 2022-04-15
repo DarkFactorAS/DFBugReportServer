@@ -1,0 +1,28 @@
+@page
+@model BugReportPageModel
+@{
+    ViewData["Title"] = "Bugreport";
+}
+
+<div class="text-center">
+@if (Model.bugReport != null)
+{
+    <h1 class="display-4">DarkFactor : Bugreport : @Model.bugReport.clientBugId </h1>
+    <center>
+    <table width=500 border=1>
+        <TR>
+            <TD width=50 align=center><a href="/Bugreport?id=@Model.bugReport.clientBugId">@Model.bugReport.clientBugId</a></TD>
+            <TD>&nbsp; @Model.bugReport.title</TD>
+            <TD width=100 align=center>@Model.bugReport.created.Day @Model.bugReport.created.Month @Model.bugReport.created.Year </TD>
+        </TR>
+        <TR>
+            <TD colspan=3>@Model.bugReport.message</TD>
+        </TR>
+    </table>
+    </center>
+}
+else
+{
+    <h1 class="display-4">DarkFactor : 404 Report not found</h1>
+}
+</div>
