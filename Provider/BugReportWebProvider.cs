@@ -12,6 +12,7 @@ namespace BugReportServer.Provider
     public interface IBugReportWebProvider
     {
         BugReportListModel GetAllBugReports();
+        BugReportExtendedData GetBugReport(int bugreportId);
         WebAPIData DeleteBugReport(int bugreportId);
     }
 
@@ -28,6 +29,16 @@ namespace BugReportServer.Provider
         {
             // TODO: Must me logged in to do this
             return _repository.GetAllBugReports();
+        }
+
+        public BugReportExtendedData GetBugReport(int bugreportId)
+        {
+            BugReportExtendedData data = new BugReportExtendedData();
+            data.bugReport = _repository.GetBugReport(bugreportId);
+
+            // TODO: Fetch file if it exists
+            
+            return data;
         }
 
         public WebAPIData DeleteBugReport(int bugreportId)
