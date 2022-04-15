@@ -9,8 +9,10 @@ namespace BugReportServer.Model
         public string title { get; set; }
         public string message { get; set; }
         public string email { get; set; }
-       public string clientName { get; set; }
-       public string clientVersion { get; set; }
+        public string clientName { get; set; }
+        public string clientVersion { get; set; }
+        public DateTime created { get; set; }
+        public DateTime updated { get; set; }
 
         public BugReportData()
         {

@@ -39,8 +39,10 @@ namespace BugReportServer
                     .LogToEvent(DFLogLevel.ERROR, AppName);
                 ;
 
-                services.AddTransient<IBugReportProvider, BugReportProvider>();
+                services.AddTransient<IBugReportAPIProvider, BugReportAPIProvider>();
+                services.AddTransient<IBugReportWebProvider, BugReportWebProvider>();
                 services.AddTransient<IBugReportRepository, BugReportRepository>();
+                services.AddTransient<IBugReportWebRepository, BugReportWebRepository>();
             })
             .ConfigureWebHostDefaults(webBuilder =>
             {

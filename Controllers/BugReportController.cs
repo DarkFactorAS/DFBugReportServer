@@ -14,9 +14,9 @@ namespace BugReportServer.Controllers
     [Route("[controller]")]
     public class BugReportController : ControllerBase
     {
-        IBugReportProvider _provider;
+        IBugReportAPIProvider _provider;
 
-        public BugReportController(IBugReportProvider provider)
+        public BugReportController(IBugReportAPIProvider provider)
         {
             _provider = provider;
         }

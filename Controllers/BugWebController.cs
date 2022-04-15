@@ -17,9 +17,9 @@ namespace BugReportServer.Controllers
     [Route("[controller]")]
     public class BugWebController : ControllerBase
     {
-        IBugReportProvider _provider;
+        IBugReportWebProvider _provider;
 
-        public BugWebController(IBugReportProvider provider)
+        public BugWebController(IBugReportWebProvider provider)
         {
             _provider = provider;
         }
@@ -28,24 +28,14 @@ namespace BugReportServer.Controllers
         [Route("GetList")]
         public BugReportListModel GetList()
         {
-            BugReportListModel model = new BugReportListModel(200,"");
-            model.bugReports = new List<BugReportData>();
-
-            model.bugReports.Add( new BugReportData{
-                clientBugId = 1,
-                title = "Hardcoded test",
-                message = "Little test from"
-            });
-
-            return model;
+            return _provider.GetAllBugReports();
         }
 
         [HttpPut]
-        [Route("DeleteBug")]
-        public WebAPIData DeleteBug(int bugID)
+        [Route("DeleteBugReport")]
+        public WebAPIData DeleteBugReport(int bugreportId)
         {
-            //return _provider.AttachFile(fileData);
-            return null;
+            return _provider.DeleteBugReport(bugreportId);
         }
     }
 }
