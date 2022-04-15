@@ -5,7 +5,18 @@
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
+    <h1 class="display-4">DarkFactor : Bugreports </h1>
 
-    @Model.model
+    <center>
+    <table width=500 border=1>
+    @foreach (var bugreport in Model.bugReportList)
+    {
+        <TR>
+            <TD width=50 align=center><a href="/Bugreport?id=@bugreport.clientBugId">@bugreport.clientBugId</a></TD>
+            <TD>&nbsp; @bugreport.title</TD>
+            <TD width=100 align=center>@bugreport.created.Day @bugreport.created.Month @bugreport.created.Year </TD>
+        </TR>
+    }
+    </table>
+    </center>
 </div>

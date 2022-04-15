@@ -1,26 +1,21 @@
 
 using System.Collections.Generic;
 using DFCommonLib.HttpApi;
+using System;
+using System.Collections.Generic;
 
 namespace BugReportWeb
 {
-    public class BugReportListModel : WebAPIData
-    {
-        public IList<BugReportModel> bugReports { get; set; }
-
-        public BugReportListModel()
-        {
-        }
-
-        public BugReportListModel(int errorCode, string message ) : base(errorCode,message)
-        {
-        }
-    }
-
     public class BugReportModel
     {
-        public int id;
-        public string title;
-        public string message;
+
+        public uint clientBugId{ get; set;}
+        public string title { get; set; }
+        public string message { get; set; }
+        public string email { get; set; }
+        public string clientName { get; set; }
+        public string clientVersion { get; set; }
+        public DateTime created { get; set; }
+        public DateTime updated { get; set; }
     }
 }

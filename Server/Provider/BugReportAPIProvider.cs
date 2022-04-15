@@ -8,19 +8,19 @@ using BugReportServer.Repository;
 
 namespace BugReportServer.Provider
 {
-    public interface IBugReportProvider
+    public interface IBugReportAPIProvider
     {
         BugReponseData ReportBug(BugReportData bugReportData);
         BugReponseFileData AttachFile(BugReportFileData fileData);
     }
 
-    public class BugReportProvider : IBugReportProvider
+    public class BugReportAPIProvider : IBugReportAPIProvider
     {
         IBugReportRepository _repository;
         private const uint MAX_FILE_SIZE = 10000000; // 10.000.000 bytes
         private readonly IDFLogger<BugReportRepository> _logger;
 
-        public BugReportProvider(IBugReportRepository repository, IDFLogger<BugReportRepository> logger)
+        public BugReportAPIProvider(IBugReportRepository repository, IDFLogger<BugReportRepository> logger)
         {
             _repository = repository;
             _logger = logger;

@@ -35,10 +35,7 @@ namespace BugReportWeb
 
             new DFServices(services)
                     .SetupLogger()
-                    .SetupMySql()
                     .LogToConsole(DFLogLevel.INFO)
-                    .LogToMySQL(DFLogLevel.WARNING)
-                    .LogToEvent(DFLogLevel.ERROR, AppName);
                 ;
         }
 
