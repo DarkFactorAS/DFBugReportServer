@@ -36,8 +36,8 @@ namespace BugReportServer
                     .SetupLogger()
                     .SetupMySql()
                     .LogToConsole(DFLogLevel.INFO)
-                    .LogToMySQL(DFLogLevel.WARNING)
-                    .LogToEvent(DFLogLevel.ERROR, AppName);
+                    .LogToMySQL(DFLogLevel.IMPORTANT)
+                    //.LogToEvent(DFLogLevel.ERROR, AppName);
                 ;
 
                 services.AddTransient<IBugReportAPIProvider, BugReportAPIProvider>();
