@@ -12,9 +12,9 @@ namespace BugReportServer.Repository
     {
         BugReportListModel GetAllBugReports();
         BugReportData GetBugReport(int bugReportId);
-        WebAPIData DeleteBugReport(int bugreportId);
         string GetBugReportFilename(int bugreportId);
-    }
+        void DeleteBugReportFiles(int bugreportId);
+        void DeleteBugReport(int bugreportId);    }
 
     public class BugReportWebRepository : IBugReportWebRepository
     {
@@ -58,6 +58,8 @@ namespace BugReportServer.Repository
                 // For now just show the callstack
                 model.errorCode = 666;
                 model.message = ex.ToString();
+
+                throw ex;
             }
             return model;
         }
@@ -87,7 +89,7 @@ namespace BugReportServer.Repository
             }
             catch(Exception ex)
             {
-                // Log error
+                throw ex;
             }
             return null;
         }
@@ -111,15 +113,43 @@ namespace BugReportServer.Repository
             }
             catch(Exception ex)
             {
-                // Log error
+                throw ex;
             }
             return null;
         }
 
-
-        public WebAPIData DeleteBugReport(int bugreportId)
+        public void DeleteBugReportFiles(int bugReportId)
         {
-            return null;
+            try
+            {
+                var sql = @"delete from bugreportfiles where bugid = @bugId";
+                using (var cmd = _connection.CreateCommand(sql))
+                {
+                    cmd.AddParameter("@bugId", bugReportId);
+                    cmd.ExecuteReader();
+                }
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
         }
+
+        public void DeleteBugReport(int bugReportId)
+        {
+            try
+            {
+                var sql = @"delete from bugreports where id = @bugId";
+                using (var cmd = _connection.CreateCommand(sql))
+                {
+                    cmd.AddParameter("@bugId", bugReportId);
+                    cmd.ExecuteReader();
+                }
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+       }
     }
 }
