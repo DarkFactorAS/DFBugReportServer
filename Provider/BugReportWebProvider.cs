@@ -3,6 +3,7 @@ using System.IO;
 using System.Collections.Generic;
 using DFCommonLib.Logger;
 using DFCommonLib.HttpApi;
+using DFCommonLib.IO;
 
 using BugReportServer.Model;
 using BugReportServer.Repository;
@@ -19,10 +20,13 @@ namespace BugReportServer.Provider
     public class BugReportWebProvider : IBugReportWebProvider
     {
         IBugReportWebRepository _repository;
+        IFileHandler _fileHandler;
 
-        public BugReportWebProvider(IBugReportWebRepository repository)
+        public BugReportWebProvider(IBugReportWebRepository repository, IFileHandler fileHandler)
         {
             _repository = repository;
+            _fileHandler = fileHandler;
+            _fileHandler.SetFolder("/BugReports");
         }
 
         public BugReportListModel GetAllBugReports()
@@ -35,9 +39,13 @@ namespace BugReportServer.Provider
         {
             BugReportExtendedData data = new BugReportExtendedData();
             data.bugReport = _repository.GetBugReport(bugreportId);
+            string filename = _repository.GetBugReportFilename(bugreportId);
 
-            // TODO: Fetch file if it exists
-            
+            if ( filename != null )
+            {
+                data.imageBase64Data = _fileHandler.ReadBase64File(filename);
+            }
+
             return data;
         }
 

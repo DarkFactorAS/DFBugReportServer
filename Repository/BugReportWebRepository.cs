@@ -13,6 +13,7 @@ namespace BugReportServer.Repository
         BugReportListModel GetAllBugReports();
         BugReportData GetBugReport(int bugReportId);
         WebAPIData DeleteBugReport(int bugreportId);
+        string GetBugReportFilename(int bugreportId);
     }
 
     public class BugReportWebRepository : IBugReportWebRepository
@@ -90,6 +91,31 @@ namespace BugReportServer.Repository
             }
             return null;
         }
+
+        public string GetBugReportFilename(int bugReportId)
+        {
+            try
+            {
+                var sql = @"SELECT filename from bugreportfiles where bugid = @bugId";
+                using (var cmd = _connection.CreateCommand(sql))
+                {
+                    cmd.AddParameter("@bugId", bugReportId);
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            return reader["filename"].ToString(); 
+                        }
+                    }
+                }
+            }
+            catch(Exception ex)
+            {
+                // Log error
+            }
+            return null;
+        }
+
 
         public WebAPIData DeleteBugReport(int bugreportId)
         {
