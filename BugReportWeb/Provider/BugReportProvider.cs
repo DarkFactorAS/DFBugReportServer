@@ -12,13 +12,14 @@ namespace BugReportWeb
     {
         Task<BugReportListModel> GetAllBugReports();
         Task<BugReportExtendedModel> GetBugReport(int bugReportId);
-        void DeleteBugReport(int bugReportId);
+        Task<WebAPIData> DeleteBugReport(int bugReportId);
     }
 
     public class BugReportProvider : DFRestClient, IBugReportProvider
     {
         private const int GET_LIST = 1;
         private const int GET_BUGREPORT = 2;
+        private const int DELETE_BUGREPORT = 3;
         private string _endpoint;
 
         public BugReportProvider(IDFLogger<DFRestClient> logger) : base(logger)
@@ -53,8 +54,10 @@ namespace BugReportWeb
             return (BugReportExtendedModel) data;
         }
 
-        public void DeleteBugReport(int bugReportId)
+        public async Task<WebAPIData> DeleteBugReport(int bugReportId)
         {
+            var result = await PutJsonData(DELETE_BUGREPORT, "DeleteBugReport?bugReportId=" + bugReportId, "");
+            return result;
         }
     }
 }

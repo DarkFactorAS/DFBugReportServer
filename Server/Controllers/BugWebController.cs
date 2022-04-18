@@ -40,9 +40,9 @@ namespace BugReportServer.Controllers
 
         [HttpPut]
         [Route("DeleteBugReport")]
-        public WebAPIData DeleteBugReport(int bugreportId)
+        public WebAPIData DeleteBugReport(int bugReportId)
         {
-            return _provider.DeleteBugReport(bugreportId);
+            return _provider.DeleteBugReport(bugReportId);
         }
     }
 }

@@ -29,7 +29,7 @@
             <form action="/BugReport" method="post" asp-antiforgery="true">
                 <input type="hidden" id="bugReportId" asp-for="bugReportId" value="@Model.bugReport.clientBugId"/>
                 <TD>
-                    <input type="submit" value="Submit" asp-page-handler="Submit"/>
+                    <input type="submit" value="Delete" asp-page-handler="Submit"/>
                 </TD>
             </form>
         </TR>

@@ -41,8 +41,15 @@ namespace BugReportWeb.Pages
 
         public async Task<IActionResult> OnPostAsync()
         {
-            _bugReportProvider.DeleteBugReport(bugReportId);
-            return RedirectToPage("./Index");
+            var result = await _bugReportProvider.DeleteBugReport(bugReportId);
+            if ( result.IsCodeOK() )
+            {
+                return RedirectToPage("./Index");
+            }
+
+            // Todo show error
+             return RedirectToPage("./Index");
+            // return RedirectToPage("./BugReport?bugReportId=" + bugReportId);
         }
     }
 }
