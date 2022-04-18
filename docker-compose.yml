@@ -28,6 +28,18 @@ services:
     ports:
       - 8082:8080
 
+  bugreportweb:
+    networks: 
+      - net_bugreport_backend
+    build:
+      network: host
+      context: ./BugReportWeb
+      dockerfile: ./Dockerfile
+    ports:
+      - "5208:80"
+    depends_on: 
+      - bugreportserver
+
   bugreportserver:
     networks: 
       - net_bugreport_backend
