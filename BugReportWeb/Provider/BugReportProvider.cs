@@ -12,6 +12,7 @@ namespace BugReportWeb
     {
         Task<BugReportListModel> GetAllBugReports();
         Task<BugReportExtendedModel> GetBugReport(int bugReportId);
+        void DeleteBugReport(int bugReportId);
     }
 
     public class BugReportProvider : DFRestClient, IBugReportProvider
@@ -50,6 +51,10 @@ namespace BugReportWeb
         {
             var data = await GetJsonData<BugReportExtendedModel>(GET_BUGREPORT,"GetBugReport?bugReportId=" + bugReportId);
             return (BugReportExtendedModel) data;
+        }
+
+        public void DeleteBugReport(int bugReportId)
+        {
         }
     }
 }

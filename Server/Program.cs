@@ -11,6 +11,7 @@ using Microsoft.Extensions.Logging;
 using DFCommonLib.Config;
 using DFCommonLib.Utils;
 using DFCommonLib.Logger;
+using DFCommonLib.IO;
 using BugReportServer.Repository;
 using BugReportServer.Provider;
 
@@ -43,6 +44,7 @@ namespace BugReportServer
                 services.AddTransient<IBugReportWebProvider, BugReportWebProvider>();
                 services.AddTransient<IBugReportRepository, BugReportRepository>();
                 services.AddTransient<IBugReportWebRepository, BugReportWebRepository>();
+                services.AddTransient<IFileHandler, FileHandler>();
             })
             .ConfigureWebHostDefaults(webBuilder =>
             {

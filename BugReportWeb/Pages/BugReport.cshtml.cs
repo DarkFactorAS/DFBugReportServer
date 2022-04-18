@@ -14,6 +14,7 @@ namespace BugReportWeb.Pages
         private readonly IBugReportProvider _bugReportProvider;
 
         public BugReportModel bugReport;
+        public string bugReportImage;
 
         public BugReportPageModel(ILogger<BugReportPageModel> logger, IBugReportProvider bugReportProvider)
         {
@@ -27,7 +28,17 @@ namespace BugReportWeb.Pages
             if ( data.errorCode == 0 )
             {
                 bugReport = data.bugReport;
+                if ( data.imageBase64Data != null )
+                {
+                    //var imageData = Convert.FromBase64String (base64data);
+                    bugReportImage = string.Format("data:image/png;base64,{0}", data.imageBase64Data);  
+                }
             }
+        }
+
+        public void DeleteBugReport(int bugReportId)
+        {
+            _bugReportProvider.DeleteBugReport(bugReportId);
         }
     }
 }

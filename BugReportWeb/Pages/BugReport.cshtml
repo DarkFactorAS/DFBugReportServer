@@ -18,6 +18,19 @@
         <TR>
             <TD colspan=3>@Model.bugReport.message</TD>
         </TR>
+        <TR>
+            <TD colspan=3><img src="@Model.bugReportImage" width="500" ></TD>
+        </TR>                                                                                                   
+        <TR>
+            <form action="/">
+                <TD><button>Back</button></TD>
+            </form>
+            <TD>&nbsp;</TD>
+            <form action="/BugReport/DeleteBugReport">
+                <input type="hidden" id="bugReportId" value="@Model.bugReport.clientBugId"/>
+                <TD><button>Delete</button></TD>
+            </form>
+        </TR>
     </table>
     </center>
 }
