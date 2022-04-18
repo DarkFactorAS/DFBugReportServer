@@ -36,9 +36,13 @@ namespace BugReportWeb.Pages
             }
         }
 
-        public void DeleteBugReport(int bugReportId)
+        [BindProperty]
+        public int bugReportId { get; set; }
+
+        public async Task<IActionResult> OnPostAsync()
         {
             _bugReportProvider.DeleteBugReport(bugReportId);
+            return RedirectToPage("./Index");
         }
     }
 }
