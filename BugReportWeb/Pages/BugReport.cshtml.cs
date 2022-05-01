@@ -15,6 +15,8 @@ namespace BugReportWeb.Pages
 
         public BugReportModel bugReport;
         public string bugReportImage;
+        public int errorCode;
+        public string errorMessage;
 
         public BugReportPageModel(ILogger<BugReportPageModel> logger, IBugReportProvider bugReportProvider)
         {
@@ -24,16 +26,20 @@ namespace BugReportWeb.Pages
 
         public void OnGet(int bugReportId)
         {
+            errorCode = 0;
+            errorMessage = null;
+
             var data = _bugReportProvider.GetBugReport(bugReportId).Result;
-            if ( data.errorCode == 0 )
+            if ( data != null && data.errorCode == 0 )
             {
                 bugReport = data.bugReport;
+                errorMessage = data.message;
                 if ( data.imageBase64Data != null )
                 {
                     //var imageData = Convert.FromBase64String (base64data);
                     bugReportImage = string.Format("data:image/png;base64,{0}", data.imageBase64Data);  
                 }
-            }
+            } 
         }
 
         [BindProperty]

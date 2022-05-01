@@ -29,9 +29,11 @@ namespace BugReportWeb
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            DFServices.Create(services);
+
             services.AddRazorPages();
             services.AddTransient(typeof(IBugReportProvider), typeof(BugReportProvider));
-            services.AddTransient<IConfigurationHelper, BugReportWebConfigurationHelper>();
+            services.AddTransient<IConfigurationHelper, ConfigurationHelper<BugReportWebCustomer> >();
 
             new DFServices(services)
                     .SetupLogger()

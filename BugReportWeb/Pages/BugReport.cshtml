@@ -19,7 +19,14 @@
             <TD colspan=3>@Model.bugReport.message</TD>
         </TR>
         <TR>
-            <TD colspan=3><img src="@Model.bugReportImage" width="500" ></TD>
+            @if ( Model.bugReportImage != null )
+            {
+                <TD colspan=3><img src="@Model.bugReportImage" width="500" ></TD>
+            }            
+            else
+            {
+                <TD colspan=3><img src="@Model.errorMessage" width="500" ></TD>
+            }
         </TR>                                                                                                   
         <TR>
             <form action="/">
@@ -36,8 +43,8 @@
     </table>
     </center>
 }
-else
+else if (@Model.errorMessage != null )
 {
-    <h1 class="display-4">DarkFactor : 404 Report not found</h1>
+    <h1 class="display-4">DarkFactor : @Model.errorCode @Model.errorMessage</h1>
 }
 </div>

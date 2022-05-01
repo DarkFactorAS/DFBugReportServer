@@ -3,13 +3,17 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
+using DFCommonLib.Config;
 using DFCommonLib.Logger;
 using DFCommonLib.HttpApi;
+
+using BugReportWeb;
 
 namespace BugReportWeb
 {
     public interface IBugReportProvider : IDFRestClient
     {
+        void SetEndpoint(string endpoint);
         Task<BugReportListModel> GetAllBugReports();
         Task<BugReportExtendedModel> GetBugReport(int bugReportId);
         Task<WebAPIData> DeleteBugReport(int bugReportId);
@@ -22,9 +26,13 @@ namespace BugReportWeb
         private const int DELETE_BUGREPORT = 3;
         private string _endpoint;
 
-        public BugReportProvider(IDFLogger<DFRestClient> logger) : base(logger)
+        public BugReportProvider(IDFLogger<DFRestClient> logger, IConfigurationHelper configuration) : base(logger)
         {
-            SetEndpoint("http://localhost:5200");
+            var customer = configuration.GetFirstCustomer() as BugReportWebCustomer;
+            if ( customer != null )
+            {
+                SetEndpoint(customer.BugReportServer);
+            }
         }
 
         override protected string GetModule()

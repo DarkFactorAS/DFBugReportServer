@@ -37,6 +37,7 @@ services:
       dockerfile: ./Dockerfile
     ports:
       - "5208:80"
+      - "5209:443"
     depends_on: 
       - bugreportserver
 
