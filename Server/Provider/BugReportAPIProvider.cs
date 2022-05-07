@@ -35,15 +35,15 @@ namespace BugReportServer.Provider
         public BugReponseData ReportBug(BugReportData bugReportData)
         {
             if ( bugReportData != null )
-            {
+            {   
                 bugReportData = VerifyFields(bugReportData);
-                if ( bugReportData != null && bugReportData.clientBugId != 0 )
+                if ( bugReportData.clientBugId != 0 )
                 {
                     uint serverId = _repository.SaveBugReport(bugReportData);
-                    return new BugReponseData( bugReportData.clientBugId, serverId, null );
+                    return new BugReponseData( bugReportData.clientBugId, serverId );
                 }
             }
-            return new BugReponseData( 0, 0, "Error with bugreport data" );
+            throw new InvalidOperationException("Error with bugreport data");
         }
 
         //
@@ -83,18 +83,11 @@ namespace BugReportServer.Provider
         {
             if ( bugReportData != null )
             {
-                if ( !string.IsNullOrEmpty(bugReportData.title) || !string.IsNullOrEmpty(bugReportData.message) )
-                {
-                    bugReportData.title = VerifyString(bugReportData.title);
-                    bugReportData.message = VerifyString( bugReportData.message );
-                    bugReportData.email = VerifyString( bugReportData.email );
-                    bugReportData.clientName = VerifyString( bugReportData.clientName );
-                    bugReportData.clientVersion = VerifyString( bugReportData.clientVersion );
-                }
-                else
-                {
-                    return null;
-                }
+                bugReportData.title = VerifyString(bugReportData.title);
+                bugReportData.message = VerifyString( bugReportData.message );
+                bugReportData.email = VerifyString( bugReportData.email );
+                bugReportData.clientName = VerifyString( bugReportData.clientName );
+                bugReportData.clientVersion = VerifyString( bugReportData.clientVersion );
             }
 
             return bugReportData;

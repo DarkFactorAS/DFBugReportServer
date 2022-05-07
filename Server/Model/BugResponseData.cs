@@ -7,12 +7,10 @@ namespace BugReportServer.Model
     {
         public uint clientBugId{ get; set;}
         public uint serverBugId{ get; set;}
-        public string message{ get; set;}
-        public BugReponseData(uint clientBugId, uint serverBugId, string message)
+        public BugReponseData(uint clientBugId, uint serverBugId)
         {
             this.clientBugId = clientBugId;
             this.serverBugId = serverBugId;
-            this.message = message;
         }
     }
 }
