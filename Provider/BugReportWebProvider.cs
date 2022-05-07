@@ -45,7 +45,14 @@ namespace BugReportServer.Provider
 
             if ( filename != null )
             {
-                data.imageBase64Data = _fileHandler.ReadBase64File(filename);
+                try
+                {
+                    data.imageBase64Data = _fileHandler.ReadBase64File(filename);
+                }
+                catch( Exception ex )
+                {
+                    data.message = ex.ToString();
+                }
             }
 
             return data;
@@ -71,7 +78,7 @@ namespace BugReportServer.Provider
                 else
                 {
                     _logger.LogWarning(string.Format("Failed to delete file : {0} for bugreport {1} (error:{2})", filename, bugreportId, fileResult));
-                    return new WebAPIData(404,"Bugreportfile not found/deleted");
+//                    return new WebAPIData(404,"Bugreportfile not found/deleted");
                 }
             }
 
