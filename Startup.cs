@@ -32,10 +32,17 @@ namespace BugReportServer
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
+            services.AddControllers()
+                .AddJsonOptions(options =>
+                {
+                    options.JsonSerializerOptions.PropertyNameCaseInsensitive   = true;
+                    options.JsonSerializerOptions.PropertyNamingPolicy  = null;
+                    options.JsonSerializerOptions.WriteIndented = true;
+                })
+                ;
 
             services.AddMvc();
-
+ 
             // register the swagger generator
             services.AddSwaggerGen();
 
@@ -47,7 +54,6 @@ namespace BugReportServer
                 // Make the session cookie essential
                 options.Cookie.IsEssential = true;
             });
-
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
