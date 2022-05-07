@@ -34,9 +34,16 @@ namespace BugReportServer.Provider
         //
         public BugReponseData ReportBug(BugReportData bugReportData)
         {
-            bugReportData = VerifyFields(bugReportData);
-            uint serverId = _repository.SaveBugReport(bugReportData);
-            return new BugReponseData( bugReportData.clientBugId, serverId );
+            if ( bugReportData != null )
+            {
+                bugReportData = VerifyFields(bugReportData);
+                if ( bugReportData != null && bugReportData.clientBugId != 0 )
+                {
+                    uint serverId = _repository.SaveBugReport(bugReportData);
+                    return new BugReponseData( bugReportData.clientBugId, serverId, null );
+                }
+            }
+            return new BugReponseData( 0, 0, "Error with bugreport data" );
         }
 
         //
@@ -74,11 +81,22 @@ namespace BugReportServer.Provider
 
         private BugReportData VerifyFields(BugReportData bugReportData)
         {
-            bugReportData.title = VerifyString(bugReportData.title);
-            bugReportData.message = VerifyString( bugReportData.message );
-            bugReportData.email = VerifyString( bugReportData.email );
-            bugReportData.clientName = VerifyString( bugReportData.clientName );
-            bugReportData.clientVersion = VerifyString( bugReportData.clientVersion );
+            if ( bugReportData != null )
+            {
+                if ( !string.IsNullOrEmpty(bugReportData.title) || !string.IsNullOrEmpty(bugReportData.message) )
+                {
+                    bugReportData.title = VerifyString(bugReportData.title);
+                    bugReportData.message = VerifyString( bugReportData.message );
+                    bugReportData.email = VerifyString( bugReportData.email );
+                    bugReportData.clientName = VerifyString( bugReportData.clientName );
+                    bugReportData.clientVersion = VerifyString( bugReportData.clientVersion );
+                }
+                else
+                {
+                    return null;
+                }
+            }
+
             return bugReportData;
         }
 
