@@ -8,7 +8,6 @@ using Microsoft.Extensions.Logging;
 using BugReportServer.Model;
 using BugReportServer.Provider;
 
-using System.Collections.Generic;
 using DFCommonLib.HttpApi;
 
 namespace BugReportServer.Controllers
