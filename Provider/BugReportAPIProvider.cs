@@ -83,22 +83,26 @@ namespace BugReportServer.Provider
         {
             if ( bugReportData != null )
             {
-                bugReportData.title = VerifyString(bugReportData.title);
-                bugReportData.message = VerifyString( bugReportData.message );
-                bugReportData.email = VerifyString( bugReportData.email );
-                bugReportData.clientName = VerifyString( bugReportData.clientName );
-                bugReportData.clientVersion = VerifyString( bugReportData.clientVersion );
+                bugReportData.title = VerifyString(bugReportData.title, 2048);
+                bugReportData.message = VerifyString( bugReportData.message, 2048 );
+                bugReportData.email = VerifyString( bugReportData.email, 100 );
+                bugReportData.clientName = VerifyString( bugReportData.clientName, 50 );
+                bugReportData.clientVersion = VerifyString( bugReportData.clientVersion, 25 );
             }
 
             return bugReportData;
         }
 
-        private string VerifyString(string input)
+        private string VerifyString(string input, int len = 0)
         {
             if (!string.IsNullOrEmpty(input))
             {
+                if ( len > 0 && input.Length >= len )
+                {
+                    return input.Substring(0,len - 1);
+                }
                 return input;
-            }
+            }            
             return "";
         }
     }
