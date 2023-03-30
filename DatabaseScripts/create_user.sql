@@ -1,7 +1,10 @@
 --
 -- Create user and privileges
 --
-USE bugreport;
-CREATE USER 'botuser'@'%' IDENTIFIED BY 'unicorn';
-GRANT ALL PRIVILEGES ON * . * TO 'botuser'@'%';
+drop user 'buguser'@'%';
+flush privileges;
+CREATE USER 'buguser'@'%' IDENTIFIED BY 'unicorn';
+GRANT ALL PRIVILEGES ON * . * TO 'buguser'@'%' IDENTIFIED BY 'unicorn';
+GRANT CREATE ON *.* TO buguser@'%' IDENTIFIED BY 'unicorn';
 commit;
+flush privileges;
