@@ -20,6 +20,7 @@ namespace BugReportServer
     public class Program
     {
         public static string AppName = "BugReportServer";
+        public static string AppVersion = "1.0.1";
 
         public static void Main(string[] args)
         {
@@ -30,6 +31,8 @@ namespace BugReportServer
             Host.CreateDefaultBuilder(args)
             .ConfigureServices((hostContext, services) =>
             {
+                DFServices.Create(services);
+
                 services.AddTransient<IConfigurationHelper, ConfigurationHelper<Customer> >();
 
                 new DFServices(services)
@@ -40,6 +43,7 @@ namespace BugReportServer
                     //.LogToEvent(DFLogLevel.ERROR, AppName);
                 ;
 
+                services.AddTransient<IStartupDatabasePatcher, StartupDatabasePatcher>();
                 services.AddTransient<IBugReportAPIProvider, BugReportAPIProvider>();
                 services.AddTransient<IBugReportWebProvider, BugReportWebProvider>();
                 services.AddTransient<IBugReportRepository, BugReportRepository>();
