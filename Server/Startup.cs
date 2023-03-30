@@ -28,8 +28,10 @@ namespace BugReportServer
             IStartupDatabasePatcher startupRepository = DFServices.GetService<IStartupDatabasePatcher>();
             startupRepository.RunPatcher();
 
+            // Show startup window
             IDFLogger<Startup> logger = new DFLogger<Startup>();
             logger.Startup(Program.AppName, Program.AppVersion);
+
         }
 
         public IConfiguration Configuration { get; }
@@ -37,6 +39,7 @@ namespace BugReportServer
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+
             services.AddControllers()
                 .AddJsonOptions(options =>
                 {
