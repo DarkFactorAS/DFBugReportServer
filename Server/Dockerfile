@@ -1,5 +1,5 @@
 # Use .Net Core 3.1 image
-FROM mcr.microsoft.com/dotnet/core/sdk:3.1 AS build-env
+FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build-env
 WORKDIR /app
 
 # Copy files
@@ -13,7 +13,7 @@ RUN dotnet restore BugReportServer.csproj
 RUN dotnet publish BugReportServer.csproj -c Release -o out
 
 # Build runtime image
-FROM mcr.microsoft.com/dotnet/core/aspnet:3.1
+FROM mcr.microsoft.com/dotnet/aspnet:7.0
 WORKDIR /app
 COPY --from=build-env /app/out .
 ENTRYPOINT ["dotnet", "BugReportServer.dll"]
