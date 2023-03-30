@@ -31,6 +31,8 @@ namespace BugReportServer
             Host.CreateDefaultBuilder(args)
             .ConfigureServices((hostContext, services) =>
             {
+                DFServices.Create(services);
+
                 services.AddTransient<IConfigurationHelper, ConfigurationHelper<Customer> >();
 
                 new DFServices(services)
