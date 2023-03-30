@@ -14,6 +14,7 @@ using Swashbuckle.AspNetCore.Swagger;
 using DFCommonLib.Utils;
 using DFCommonLib.Logger;
 using DFCommonLib.DataAccess;
+using BugReportServer.Repository;
 
 namespace BugReportServer
 {
@@ -23,8 +24,12 @@ namespace BugReportServer
         {
             Configuration = configuration;
 
+            // Run database script
+            IStartupDatabasePatcher startupRepository = DFServices.GetService<IStartupDatabasePatcher>();
+            startupRepository.RunPatcher();
+
             IDFLogger<Startup> logger = new DFLogger<Startup>();
-            logger.Startup(Program.AppName);
+            logger.Startup(Program.AppName, Program.AppVersion);
         }
 
         public IConfiguration Configuration { get; }
