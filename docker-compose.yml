@@ -2,7 +2,7 @@ version: '3.6'
 services:
 
   bugreportdb:
-    image: mariadb
+    image: mariadb:10.9
     networks: 
       - net_bugreport_backend
     container_name: bugreportserver_database
@@ -13,6 +13,7 @@ services:
       - "MYSQL_DATABASE=bugreport"
       - "MYSQL_USER=buguser"
       - "MYSQL_PASSWORD=unicorn"
+      - "TZ=Europe/Sofia"
     volumes:
       - bugreportserver-mariadb:/var/lib/mysql
     ports:
