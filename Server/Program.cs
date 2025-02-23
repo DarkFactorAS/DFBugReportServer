@@ -12,6 +12,8 @@ using DFCommonLib.Config;
 using DFCommonLib.Utils;
 using DFCommonLib.Logger;
 using DFCommonLib.IO;
+using DFCommonLib.DataAccess;
+
 using BugReportServer.Repository;
 using BugReportServer.Provider;
 
@@ -43,7 +45,7 @@ namespace BugReportServer
                     //.LogToEvent(DFLogLevel.ERROR, AppName);
                 ;
 
-                services.AddTransient<IStartupDatabasePatcher, StartupDatabasePatcher>();
+                services.AddTransient<IStartupDatabasePatcher, BugReportDatabasePatcher>();
                 services.AddTransient<IBugReportAPIProvider, BugReportAPIProvider>();
                 services.AddTransient<IBugReportWebProvider, BugReportWebProvider>();
                 services.AddTransient<IBugReportRepository, BugReportRepository>();
