@@ -5,9 +5,6 @@ WORKDIR /app
 # Copy files
 COPY ./ ./
 
-# Copy nuget file
-COPY ./NuGet_Docker.config ./NuGet.config
-
 # Restore and build web
 RUN dotnet restore BugReportServer.csproj
 RUN dotnet publish BugReportServer.csproj -c Release -o out
