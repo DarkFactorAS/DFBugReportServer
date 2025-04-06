@@ -2,6 +2,12 @@
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build-env
 WORKDIR /app
 
+# Get the NuGet arguments and set as environment to use in NuGet
+ARG username
+ARG token
+ENV NUGET_USERNAME $username
+ENV NUGET_TOKEN $token
+
 # Copy files
 COPY ./ ./
 
