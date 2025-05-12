@@ -13,7 +13,6 @@ namespace BugReportWeb
 {
     public interface IBugReportProvider : IDFRestClient
     {
-        void SetEndpoint(string endpoint);
         Task<BugReportListModel> GetAllBugReports();
         Task<BugReportExtendedModel> GetBugReport(int bugReportId);
         Task<WebAPIData> DeleteBugReport(int bugReportId);
@@ -24,7 +23,6 @@ namespace BugReportWeb
         private const int GET_LIST = 1;
         private const int GET_BUGREPORT = 2;
         private const int DELETE_BUGREPORT = 3;
-        private string _endpoint;
 
         public BugReportProvider(IDFLogger<DFRestClient> logger, IConfigurationHelper configuration) : base(logger)
         {
@@ -38,16 +36,6 @@ namespace BugReportWeb
         override protected string GetModule()
         {
             return "BugWeb";
-        }
-
-        public void SetEndpoint(string endpoint)
-        {
-            _endpoint = endpoint;
-        }
-
-        override protected string GetHostname()
-        {
-            return _endpoint;
         }
 
         public async Task<BugReportListModel> GetAllBugReports()
