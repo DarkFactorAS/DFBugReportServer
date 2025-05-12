@@ -8,7 +8,7 @@
             "name": "BugReportServer (web)",
             "type": "coreclr",
             "request": "launch",
-            "preLaunchTask": "build",
+            "preLaunchTask": "build_server",
             // If you have changed target frameworks, make sure to update the program path.
             "program": "${workspaceFolder}/Server/bin/Debug/net7.0/BugReportServer.dll",
             "args": [],
@@ -30,11 +30,11 @@
             "name": "BugReportClient (web)",
             "type": "coreclr",
             "request": "launch",
-            "preLaunchTask": "build",
+            "preLaunchTask": "build_client",
             // If you have changed target frameworks, make sure to update the program path.
-            "program": "${workspaceFolder}/bin/Debug/net5.0/BugReportWeb.dll",
+            "program": "${workspaceFolder}/BugReportWeb/bin/Debug/net7.0/BugReportWeb.dll",
             "args": [],
-            "cwd": "${workspaceFolder}",
+            "cwd": "${workspaceFolder}/BugReportWeb",
             "stopAtEntry": false,
             // Enable launching a web browser when ASP.NET Core starts. For more information: https://aka.ms/VSCode-CS-LaunchJson-WebBrowser
             "serverReadyAction": {
