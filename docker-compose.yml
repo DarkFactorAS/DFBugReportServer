@@ -40,6 +40,7 @@ services:
         token: ${NUGET_TOKEN}
     ports:
       - "5208:80"
+    restart: always
     depends_on: 
       - bugreportserver
 
@@ -57,6 +58,7 @@ services:
       - "5200:80"
     depends_on: 
       - bugreportdb
+    restart: always
     volumes:
       - bugreportserver-reportdisk:/BugReports
       #- ./BugReports:/BugReports2
