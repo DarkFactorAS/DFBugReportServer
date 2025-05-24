@@ -22,7 +22,7 @@ namespace BugReportServer
     public class Program
     {
         public static string AppName = "BugReportServer";
-        public static string AppVersion = "1.0.1";
+        public static string AppVersion = "1.1.24-05-2025";
 
         public static void Main(string[] args)
         {
