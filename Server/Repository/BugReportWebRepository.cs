@@ -82,6 +82,8 @@ namespace BugReportServer.Repository
                             bugReport.message = reader["message"].ToString(); 
                             bugReport.created = Convert.ToDateTime(reader["created"].ToString());
                             bugReport.updated = Convert.ToDateTime(reader["updated"].ToString());
+                            bugReport.clientName = reader["clientName"].ToString(); 
+                            bugReport.clientVersion = reader["clientVersion"].ToString(); 
                             return bugReport;
                         }
                     }
