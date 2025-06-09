@@ -8,13 +8,13 @@
     <h1 class="display-4">DarkFactor : Bugreports </h1>
 
     <center>
-    <table width=500 border=1>
+    <table width=700 border=1>
     @foreach (var bugreport in Model.bugReportList)
     {
         <TR>
             <TD width=50 align=center><a href="/Bugreport?bugReportId=@bugreport.clientBugId">@bugreport.clientBugId</a></TD>
             <TD>&nbsp; @bugreport.title</TD>
-            <TD width=100 align=center>@bugreport.created.Day @bugreport.created.Month @bugreport.created.Year </TD>
+            <TD width=120 align=center>@bugreport.createdString </TD>
         </TR>
     }
     </table>
