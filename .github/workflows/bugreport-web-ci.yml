@@ -1,0 +1,31 @@
+name: Bot Server - CI Docker Container
+
+on:
+  push:
+    paths:
+      - 'BugReportWeb/**'
+      - '.github/workflows/bugreport-web-ci.yml'
+
+  pull_request:
+  workflow_dispatch:
+
+env:
+  IMAGE_NAME: bugreportwebimage
+
+jobs:
+
+  build:
+    # 15 minute timeout
+    timeout-minutes: 15
+
+    # Use a self-hosted runner
+    runs-on: self-hosted
+
+    # Check out code from the repository
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4      
+
+    # Build the Docker image
+    - name: Build Docker image
+      run: docker build . --file Server/Dockerfile --tag ${{ env.IMAGE_NAME }}:CI-$(date +%s)  --build-arg username=${{ vars.NUGET_USERNAME }} --build-arg token=${{ secrets.NUGET_TOKEN }}
