@@ -1,7 +1,7 @@
-// Workspace settings
 {
     "files.exclude": {
-        "bin": true,
-        "obj": true
+        "**/bin": true,
+        "**/obj": true,
+        "**/.vs": true
     }
 }
