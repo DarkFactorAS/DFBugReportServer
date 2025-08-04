@@ -10,7 +10,7 @@
             "request": "launch",
             "preLaunchTask": "build_server",
             // If you have changed target frameworks, make sure to update the program path.
-            "program": "${workspaceFolder}/Server/bin/Debug/net7.0/BugReportServer.dll",
+            "program": "${workspaceFolder}/Server/bin/Debug/net8.0/BugReportServer.dll",
             "args": [],
             "cwd": "${workspaceFolder}/Server",
             "stopAtEntry": false,
@@ -32,7 +32,7 @@
             "request": "launch",
             "preLaunchTask": "build_client",
             // If you have changed target frameworks, make sure to update the program path.
-            "program": "${workspaceFolder}/BugReportWeb/bin/Debug/net7.0/BugReportWeb.dll",
+            "program": "${workspaceFolder}/BugReportWeb/bin/Debug/net8.0/BugReportWeb.dll",
             "args": [],
             "cwd": "${workspaceFolder}/BugReportWeb",
             "stopAtEntry": false,

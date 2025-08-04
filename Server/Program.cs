@@ -22,11 +22,41 @@ namespace BugReportServer
     public class Program
     {
         public static string AppName = "BugReportServer";
-        public static string AppVersion = "1.1.24-05-2025";
+        public static string AppVersion = "1.2.0";
 
         public static void Main(string[] args)
         {
-            CreateHostBuilder(args).Build().Run();
+            var builder = CreateHostBuilder(args).Build();
+            try
+            {
+                IDFLogger<Program> logger = new DFLogger<Program>();
+                logger.Startup(Program.AppName, Program.AppVersion);
+
+                IConfigurationHelper configurationHelper = DFServices.GetService<IConfigurationHelper>();
+                var config = configurationHelper.GetFirstCustomer();
+                var msg = string.Format("Connecting to DB : {0}", config.DatabaseConnections.First().ConnectionString);
+                DFLogger.LogOutput(DFLogLevel.INFO, AppName, msg);
+
+                // Run database script
+                IStartupDatabasePatcher startupRepository = DFServices.GetService<IStartupDatabasePatcher>();
+                startupRepository.WaitForConnection();
+                if (startupRepository.RunPatcher())
+                {
+                    DFLogger.LogOutput(DFLogLevel.INFO, "Startup", "Database patcher ran successfully");
+                }
+                else
+                {
+                    DFLogger.LogOutput(DFLogLevel.ERROR, "Startup", "Database patcher failed");
+                    Environment.Exit(1);
+                    return;
+                }
+
+                builder.Run();
+            }
+            catch (Exception ex)
+            {
+                DFLogger.LogOutput(DFLogLevel.WARNING, "Startup", ex.ToString());
+            }
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>

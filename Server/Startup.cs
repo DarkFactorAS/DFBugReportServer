@@ -29,8 +29,8 @@ namespace BugReportServer
             startupRepository.RunPatcher();
 
             // Show startup window
-            IDFLogger<Startup> logger = new DFLogger<Startup>();
-            logger.Startup(Program.AppName, Program.AppVersion);
+            // IDFLogger<Startup> logger = new DFLogger<Startup>();
+            // logger.Startup(Program.AppName, Program.AppVersion);
 
         }
 
