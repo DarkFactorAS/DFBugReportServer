@@ -33,8 +33,8 @@ namespace BugReportServer
                 logger.Startup(Program.AppName, Program.AppVersion);
 
                 IConfigurationHelper configurationHelper = DFServices.GetService<IConfigurationHelper>();
-                var config = configurationHelper.GetFirstCustomer();
-                var msg = string.Format("Connecting to DB : {0}", config.DatabaseConnections.First().ConnectionString);
+                var config = configurationHelper.Settings;
+                var msg = string.Format("Connecting to DB : {0}:{1}", config.DatabaseConnection.Server, config.DatabaseConnection.Port);
                 DFLogger.LogOutput(DFLogLevel.INFO, AppName, msg);
 
                 // Run database script
@@ -65,7 +65,7 @@ namespace BugReportServer
             {
                 DFServices.Create(services);
 
-                services.AddTransient<IConfigurationHelper, ConfigurationHelper<Customer> >();
+                services.AddTransient<IConfigurationHelper, ConfigurationHelper<AppSettings>>();
 
                 new DFServices(services)
                     .SetupLogger()

@@ -9,7 +9,7 @@ using DFCommonLib.Config;
 
 namespace BugReportWeb
 {
-    public class BugReportWebCustomer : Customer
+    public class BugReportConfig : AppSettings
     {
         public string BugReportServer { get; set; }
     }

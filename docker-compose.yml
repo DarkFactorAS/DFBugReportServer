@@ -41,6 +41,8 @@ services:
     ports:
       - "5208:80"
     restart: always
+    environment:
+      - ASPNETCORE_ENVIRONMENT=DevelopmentDocker
     depends_on: 
       - bugreportserver
 
@@ -59,6 +61,8 @@ services:
     depends_on: 
       - bugreportdb
     restart: always
+    environment:
+      - ASPNETCORE_ENVIRONMENT=DevelopmentDocker
     volumes:
       - bugreportserver-reportdisk:/BugReports
       #- ./BugReports:/BugReports2

@@ -30,15 +30,7 @@ namespace BugReportWeb
         public void ConfigureServices(IServiceCollection services)
         {
             DFServices.Create(services);
-
             services.AddRazorPages();
-            services.AddTransient(typeof(IBugReportProvider), typeof(BugReportProvider));
-            services.AddTransient<IConfigurationHelper, ConfigurationHelper<BugReportWebCustomer> >();
-
-            new DFServices(services)
-                    .SetupLogger()
-                    .LogToConsole(DFLogLevel.INFO)
-                ;
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

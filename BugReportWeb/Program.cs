@@ -19,12 +19,11 @@ namespace BugReportWeb
         {
             var builder = CreateHostBuilder(args).Build();
 
-/*
             try
             {
-                IConfigurationHelper configuration = DFServices.GetService<IConfigurationHelper>();
+                IConfigurationHelper configurationHelper = DFServices.GetService<IConfigurationHelper>();
                 IBugReportProvider bugReportProvider = DFServices.GetService<IBugReportProvider>();
-                var customer = configuration.GetFirstCustomer() as BugReportWebCustomer;
+                var customer = configurationHelper.Settings as BugReportConfig;
                 if ( customer != null )
                 {
                     bugReportProvider.SetEndpoint(customer.BugReportServer);
@@ -34,23 +33,27 @@ namespace BugReportWeb
             {
                 DFLogger.LogOutput(DFLogLevel.WARNING, "Startup", ex.ToString() );
             }
-            */
 
             builder.Run();
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
-            
-                .ConfigureServices((hostContext, services) =>
-                {
-                    services.AddTransient<IConfigurationHelper, ConfigurationHelper<BugReportWebCustomer> >();
-                    services.AddTransient<IBugReportProvider, BugReportProvider>();
-                })
-                .ConfigureWebHostDefaults(webBuilder =>
-                {
-                    webBuilder.UseStartup<Startup>();
-                })
+            .ConfigureServices((hostContext, services) =>
+            {
+                services.AddTransient<IConfigurationHelper, ConfigurationHelper<BugReportConfig> >();
+
+                new DFServices(services)
+                    .SetupLogger()
+                    .LogToConsole(DFLogLevel.INFO)
+                ;
+
+                services.AddTransient<IBugReportProvider, BugReportProvider>();
+            })
+            .ConfigureWebHostDefaults(webBuilder =>
+            {
+                webBuilder.UseStartup<Startup>();
+            })
             ;
     }
 }
