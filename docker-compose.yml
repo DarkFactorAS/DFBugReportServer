@@ -39,7 +39,7 @@ services:
         username: ${NUGET_USERNAME}
         token: ${NUGET_TOKEN}
     ports:
-      - "5208:80"
+      - "5208:8080"
     restart: always
     environment:
       - ASPNETCORE_ENVIRONMENT=DevelopmentDocker
@@ -57,7 +57,7 @@ services:
         username: ${NUGET_USERNAME}
         token: ${NUGET_TOKEN}
     ports:
-      - "5200:80"
+      - "5200:8080"
     depends_on: 
       - bugreportdb
     restart: always

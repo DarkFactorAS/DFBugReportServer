@@ -21,4 +21,4 @@ WORKDIR /app
 COPY --from=build-env /app/out .
 ENTRYPOINT ["dotnet", "BugReportServer.dll"]
 
-EXPOSE 5200:80
+EXPOSE 5200:8080
