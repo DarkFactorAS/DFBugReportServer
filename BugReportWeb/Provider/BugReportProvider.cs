@@ -24,8 +24,13 @@ namespace BugReportWeb
         private const int GET_BUGREPORT = 2;
         private const int DELETE_BUGREPORT = 3;
 
-        public BugReportProvider(IDFLogger<DFRestClient> logger) : base(logger)
+        public BugReportProvider(IDFLogger<DFRestClient> logger, IConfigurationHelper configurationHelper) : base(logger)
         {
+            var config = configurationHelper.Settings as BugReportConfig;
+            if (config != null) 
+            {
+                SetEndpoint(config.BugReportServer);
+            }
         }
 
         override protected string GetModule()
