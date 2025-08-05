@@ -28,4 +28,4 @@ jobs:
 
     # Build the Docker image
     - name: Build Docker image
-      run: docker build Server/ --file Server/Dockerfile --tag ${{ env.IMAGE_NAME }}:CI-$(date +%s)  --build-arg username=${{ vars.NUGET_USERNAME }} --build-arg token=${{ secrets.NUGET_TOKEN }}
+      run: docker build Server/ --file Server/Dockerfile --tag ${{ env.IMAGE_NAME }}:CI-$(date +%s)  --build-arg username=${{ secrets.NUGET_USERNAME }} --build-arg token=${{ secrets.NUGET_TOKEN }}

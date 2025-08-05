@@ -1,0 +1,53 @@
+name: BugReport Server - Deploy Docker Container
+
+on:
+  workflow_dispatch:
+   
+env:
+  TIMESTAMP: ${{ github.sha }}
+  CONTAINER_NAME: bugreportweb
+  IMAGE_NAME: bugreportwebimage
+  EXTERNAL_PORT: 5208
+  INTERNAL_PORT: 8080
+  SERVER_PORT: 5200
+  SOURCE_PATH: BugReportWeb
+  ASPNETCORE_ENVIRONMENT: Production
+
+jobs:
+
+  build:
+    # 15 minute timeout
+    timeout-minutes: 15
+
+    runs-on: self-hosted
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4      
+
+    - name: Create prod file
+      uses: bluwy/substitute-string-action@v3
+      with:
+        _input-file: ${{ env.SOURCE_PATH }}/Config/appsettings.${{ env.ASPNETCORE_ENVIRONMENT }}.json
+        BUGREPORTSERVER.URL: http://${{ secrets.SERVER_ADDRESS }}:${{ env.SERVER_PORT }}
+        _output-file: ${{ env.SOURCE_PATH }}/Config/appsettings.${{ env.ASPNETCORE_ENVIRONMENT }}.json
+
+    # Remove all unused images, containers, volumes, networks, and build cache
+    - name: Prune old Docker builds
+      run:
+        docker image prune -a -f
+
+    - name: Build Docker image
+      run: docker build ${{ env.SOURCE_PATH }}/ --file ${{ env.SOURCE_PATH }}/Dockerfile --tag ${{ env.IMAGE_NAME }}:${{ env.TIMESTAMP }}  --build-arg username=${{ secrets.NUGET_USERNAME }} --build-arg token=${{ secrets.NUGET_TOKEN }}
+
+    - name: Stop old Docker container
+      run:
+        docker stop ${{ env.CONTAINER_NAME }} || true
+
+    - name: Delete old Docker container
+      run:
+        docker rm ${{ env.CONTAINER_NAME }} || true
+
+    - name: Run Docker container
+      run:
+        docker run -d -p ${{ env.EXTERNAL_PORT }}:${{ env.INTERNAL_PORT }} --name ${{ env.CONTAINER_NAME }} ${{ env.IMAGE_NAME }}:${{ env.TIMESTAMP }}
