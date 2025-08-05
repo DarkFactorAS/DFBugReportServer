@@ -1,4 +1,4 @@
-name: BugReport Server - Deploy Docker Container
+name: BugReport Web - Deploy Docker Container
 
 on:
   workflow_dispatch:
