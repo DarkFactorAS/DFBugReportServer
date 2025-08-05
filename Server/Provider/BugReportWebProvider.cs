@@ -12,6 +12,7 @@ namespace BugReportServer.Provider
 {
     public interface IBugReportWebProvider
     {
+        string PingServer();
         BugReportListModel GetAllBugReports();
         BugReportExtendedData GetBugReport(int bugreportId);
         WebAPIData DeleteBugReport(int bugreportId);
@@ -29,6 +30,12 @@ namespace BugReportServer.Provider
             _logger = logger;
             _fileHandler = fileHandler;
             _fileHandler.SetFolder("/BugReports");
+        }
+
+        public string PingServer()
+        {
+            _logger.LogInfo("PING-PONG");
+            return "PONG";
         }
 
         public BugReportListModel GetAllBugReports()

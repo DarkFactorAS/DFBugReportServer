@@ -24,6 +24,13 @@ namespace BugReportServer.Controllers
         }
 
         [HttpGet]
+        [Route("PingServer")]
+        public string PingServer()
+        {
+            return _provider.PingServer();
+        }
+
+        [HttpGet]
         [Route("GetAllBugReports")]
         public BugReportListModel GetAllBugReports()
         {

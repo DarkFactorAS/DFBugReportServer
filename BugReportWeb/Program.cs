@@ -15,23 +15,31 @@ namespace BugReportWeb
 {
     public class Program
     {
+        public static string AppName = "BugReportWeb";
+        public static string AppVersion = "0.9.0";
+
         public static void Main(string[] args)
         {
             var builder = CreateHostBuilder(args).Build();
 
             try
             {
+                IDFLogger<Program> logger = new DFLogger<Program>();
+                logger.Startup(Program.AppName, Program.AppVersion);
+
                 IConfigurationHelper configurationHelper = DFServices.GetService<IConfigurationHelper>();
                 IBugReportProvider bugReportProvider = DFServices.GetService<IBugReportProvider>();
-                var customer = configurationHelper.Settings as BugReportConfig;
-                if ( customer != null )
-                {
-                    bugReportProvider.SetEndpoint(customer.BugReportServer);
-                }
+                var config = configurationHelper.Settings as BugReportConfig;
+
+                string msg = string.Format("Ping BugReportServer : {0}", config.BugReportServer);
+                DFLogger.LogOutput(DFLogLevel.INFO, AppName, msg);
+
+                var result = bugReportProvider.PingServer();
+                DFLogger.LogOutput(DFLogLevel.INFO, AppName, "BugReportServer:" + result );
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                DFLogger.LogOutput(DFLogLevel.WARNING, "Startup", ex.ToString() );
+                DFLogger.LogOutput(DFLogLevel.WARNING, "Startup", ex.ToString());
             }
 
             builder.Run();
