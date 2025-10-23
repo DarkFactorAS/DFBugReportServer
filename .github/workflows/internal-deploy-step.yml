@@ -88,7 +88,7 @@ jobs:
         DATABASE.USERNAME: ${{ env.DATABASE_USERNAME }}
         DATABASE.PASSWORD: ${{ env.DATABASE_PASSWORD }}
         DATABASE.NAME: ${{ env.DATABASE_NAME }}
-        _output-file:  ${{ inputs.config_file }}
+        _output-file: ${{ inputs.config_file }}
 
     # Build the image
     - name: Build Docker image
