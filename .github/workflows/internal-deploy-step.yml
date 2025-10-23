@@ -1,33 +1,12 @@
 #
 # Build Deploy file for Docker container
-# Change the variables in this section to match your project
 #
 
-#
-# Required GitHub secrets and variables to be set up
-# Organization Secrets:
-#   - NUGET_USERNAME
-#   - NUGET_TOKEN
-#   - DATABASE_SERVER
-# Environment Secrets:
-#   - DATABASE_PORT
-#   - DATABASE_PASSWORD
-# Repository Variables:
-#   - PROJECT_NAME
-#   - DATABASE_USERNAME
-# Environment Variables:
-#   - DATABASE_NAME
-#   - EXTERNAL_PORT
-
-name: Internal - BugReport - Deploy Step
+name: Internal - Deploy Step
 
 defaults:
   run:
     working-directory: .
-
-#
-# Everything below this is template code
-#
 
 on:
   workflow_call:
@@ -50,7 +29,20 @@ jobs:
       TIMESTAMP: ${{ github.sha }}
       CONFIGURATION: Release
       INTERNAL_PORT: 8080
+
+      # Environment Secrets:
+      DATABASE_PASSWORD: ${{ secrets.DATABASE_PASSWORD }}
+      # Environment Variables:
+      DATABASE_NAME: ${{ vars.DATABASE_NAME }}
+      DATABASE_PORT: ${{ vars.DATABASE_PORT }}
       EXTERNAL_PORT: ${{ vars.EXTERNAL_PORT }}
+      # Repository Variables:
+      DATABASE_USERNAME: ${{ vars.DATABASE_USERNAME }}
+      PROJECT_NAME: ${{ vars.PROJECT_NAME }}
+      # Organization Secrets:
+      DATABASE_SERVER: ${{ secrets.DATABASE_SERVER }}
+      NUGET_USERNAME: ${{ secrets.NUGET_USERNAME }}
+      NUGET_TOKEN: ${{ secrets.NUGET_TOKEN }}
 
     # To be able to deploy on the local server
     runs-on: self-hosted
@@ -59,10 +51,17 @@ jobs:
 
     steps:
 
+    - name: Verify secrets
+      run: |
+        if [ -z "${{ env.NUGET_USERNAME }}" ] || [ -z "${{ env.NUGET_TOKEN }}" ] || [ -z "${{ env.DATABASE_SERVER }}" ] || [ -z "${{ env.DATABASE_PORT }}" ] || [ -z "${{ env.DATABASE_PASSWORD }}" ]; then
+          echo "One or more required secrets are not set. Please check the organization and environment secrets."
+          exit 1
+        fi
+
     - name: Convert Docker name to lowercase
       id: convert_to_lowercase
       run: |
-        UPPERCASE_VAR="${{ vars.PROJECT_NAME }}"
+        UPPERCASE_VAR="${{ env.PROJECT_NAME }}"
         DOCKER_NAME="${UPPERCASE_VAR,,}" # The ,, converts to lowercase
         echo "DOCKER_NAME=$DOCKER_NAME" >> $GITHUB_OUTPUT
 
@@ -72,17 +71,17 @@ jobs:
     - name: Create config file
       uses: bluwy/substitute-string-action@v3
       with:
-        _input-file: ${{ vars.PROJECT_NAME }}/Config/appsettings.Production.json
-        DATABASE.SERVER: ${{ secrets.DATABASE_SERVER }}
-        DATABASE.PORT: ${{ secrets.DATABASE_PORT }}
-        DATABASE.USERNAME: ${{ vars.DATABASE_USERNAME }}
-        DATABASE.PASSWORD: ${{ secrets.DATABASE_PASSWORD }}
-        DATABASE.NAME: ${{ vars.DATABASE_NAME }}
-        _output-file: ${{ vars.PROJECT_NAME }}/Config/appsettings.Production.json
+        _input-file: ${{ env.PROJECT_NAME }}/Config/appsettings.Production.json
+        DATABASE.SERVER: ${{ env.DATABASE_SERVER }}
+        DATABASE.PORT: ${{ env.DATABASE_PORT }}
+        DATABASE.USERNAME: ${{ env.DATABASE_USERNAME }}
+        DATABASE.PASSWORD: ${{ env.DATABASE_PASSWORD }}
+        DATABASE.NAME: ${{ env.DATABASE_NAME }}
+        _output-file: ${{ env.PROJECT_NAME }}/Config/appsettings.Production.json
 
     # Build the image
     - name: Build Docker image
-      run: docker build ${{ inputs.docker_path }} --file Dockerfile --tag ${{ steps.convert_to_lowercase.outputs.DOCKER_NAME }}-${{ inputs.environment }}-image:${{ env.TIMESTAMP }}  --build-arg username=${{ secrets.NUGET_USERNAME }} --build-arg token=${{ secrets.NUGET_TOKEN }}
+      run: docker build ${{ inputs.docker_path }} --file Dockerfile --tag ${{ steps.convert_to_lowercase.outputs.DOCKER_NAME }}-${{ inputs.environment }}-image:${{ env.TIMESTAMP }}  --build-arg username=${{ env.NUGET_USERNAME }} --build-arg token=${{ env.NUGET_TOKEN }}
 
     - name: Stop old Docker container
       run:
