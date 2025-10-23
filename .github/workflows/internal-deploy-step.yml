@@ -18,6 +18,14 @@ on:
         required: true
         type: string
       docker_path:
+        required: false
+        default: "."
+        type: string
+      docker_file:
+        required: false
+        default: "Dockerfile"
+        type: string
+      config_file:
         required: true
         type: string
 
@@ -74,17 +82,17 @@ jobs:
     - name: Create config file
       uses: bluwy/substitute-string-action@v3
       with:
-        _input-file: ${{ env.PROJECT_NAME }}/Config/appsettings.Production.json
+        _input-file: ${{ inputs.config_file }}
         DATABASE.SERVER: ${{ env.DATABASE_SERVER }}
         DATABASE.PORT: ${{ env.DATABASE_PORT }}
         DATABASE.USERNAME: ${{ env.DATABASE_USERNAME }}
         DATABASE.PASSWORD: ${{ env.DATABASE_PASSWORD }}
         DATABASE.NAME: ${{ env.DATABASE_NAME }}
-        _output-file: ${{ env.PROJECT_NAME }}/Config/appsettings.Production.json
+        _output-file: ${{ inputs.config_file }}
 
     # Build the image
     - name: Build Docker image
-      run: docker build ${{ inputs.docker_path }} --file Dockerfile --tag ${{ steps.convert_to_lowercase.outputs.DOCKER_NAME }}-${{ inputs.environment }}-image:${{ env.TIMESTAMP }}  --build-arg username=${{ env.NUGET_USERNAME }} --build-arg token=${{ env.NUGET_TOKEN }}
+      run: docker build ${{ inputs.docker_path }} --file ${{ inputs.docker_path }}/${{ inputs.docker_file }} --tag ${{ steps.convert_to_lowercase.outputs.DOCKER_NAME }}-${{ inputs.environment }}-image:${{ env.TIMESTAMP }}  --build-arg username=${{ env.NUGET_USERNAME }} --build-arg token=${{ env.NUGET_TOKEN }}
 
     - name: Stop old Docker container
       run:
