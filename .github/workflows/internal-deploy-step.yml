@@ -1,0 +1,100 @@
+#
+# Build Deploy file for Docker container
+#
+
+name: Internal - Deploy Step
+
+permissions:
+  contents: read
+
+defaults:
+  run:
+    working-directory: .
+
+on:
+  workflow_call:
+    inputs:
+      environment:
+        required: true
+        type: string
+      docker_path:
+        required: true
+        type: string
+
+jobs:
+  deploy:
+
+    # Timeout for the job
+    timeout-minutes: 15
+
+    # Static variables used in the workflow
+    env:
+      TIMESTAMP: ${{ github.sha }}
+      CONFIGURATION: Release
+      INTERNAL_PORT: 8080
+
+      # Environment Secrets:
+      DATABASE_PASSWORD: ${{ secrets.DATABASE_PASSWORD }}
+      # Environment Variables:
+      DATABASE_NAME: ${{ vars.DATABASE_NAME }}
+      DATABASE_PORT: ${{ vars.DATABASE_PORT }}
+      EXTERNAL_PORT: ${{ vars.EXTERNAL_PORT }}
+      # Repository Variables:
+      DATABASE_USERNAME: ${{ vars.DATABASE_USERNAME }}
+      PROJECT_NAME: ${{ vars.PROJECT_NAME }}
+      # Organization Secrets:
+      DATABASE_SERVER: ${{ secrets.DATABASE_SERVER }}
+      NUGET_USERNAME: ${{ secrets.NUGET_USERNAME }}
+      NUGET_TOKEN: ${{ secrets.NUGET_TOKEN }}
+
+    # To be able to deploy on the local server
+    runs-on: self-hosted
+
+    environment: ${{ inputs.environment }}
+
+    steps:
+
+    - name: Verify secrets
+      run: |
+        if [ -z "${{ env.NUGET_USERNAME }}" ] || [ -z "${{ env.NUGET_TOKEN }}" ] || [ -z "${{ env.DATABASE_SERVER }}" ] || [ -z "${{ env.DATABASE_PORT }}" ] || [ -z "${{ env.DATABASE_PASSWORD }}" ]; then
+          echo "One or more required secrets are not set. Please check the organization and environment secrets."
+          exit 1
+        fi
+
+    - name: Convert Docker name to lowercase
+      id: convert_to_lowercase
+      run: |
+        UPPERCASE_VAR="${{ env.PROJECT_NAME }}"
+        DOCKER_NAME="${UPPERCASE_VAR,,}" # The ,, converts to lowercase
+        echo "DOCKER_NAME=$DOCKER_NAME" >> $GITHUB_OUTPUT
+
+    - name: Checkout repository
+      uses: actions/checkout@v4      
+
+    - name: Create config file
+      uses: bluwy/substitute-string-action@v3
+      with:
+        _input-file: ${{ env.PROJECT_NAME }}/Config/appsettings.Production.json
+        DATABASE.SERVER: ${{ env.DATABASE_SERVER }}
+        DATABASE.PORT: ${{ env.DATABASE_PORT }}
+        DATABASE.USERNAME: ${{ env.DATABASE_USERNAME }}
+        DATABASE.PASSWORD: ${{ env.DATABASE_PASSWORD }}
+        DATABASE.NAME: ${{ env.DATABASE_NAME }}
+        _output-file: ${{ env.PROJECT_NAME }}/Config/appsettings.Production.json
+
+    # Build the image
+    - name: Build Docker image
+      run: docker build ${{ inputs.docker_path }} --file Dockerfile --tag ${{ steps.convert_to_lowercase.outputs.DOCKER_NAME }}-${{ inputs.environment }}-image:${{ env.TIMESTAMP }}  --build-arg username=${{ env.NUGET_USERNAME }} --build-arg token=${{ env.NUGET_TOKEN }}
+
+    - name: Stop old Docker container
+      run:
+        docker stop ${{ steps.convert_to_lowercase.outputs.DOCKER_NAME }}-${{ inputs.environment }} || true
+
+    - name: Delete old Docker container
+      run:
+        docker rm ${{ steps.convert_to_lowercase.outputs.DOCKER_NAME }}-${{ inputs.environment }} || true
+
+    - name: Run Docker container
+      run:
+        docker run -d -p ${{ env.EXTERNAL_PORT }}:${{ env.INTERNAL_PORT }} --name ${{ steps.convert_to_lowercase.outputs.DOCKER_NAME }}-${{ inputs.environment }} ${{ steps.convert_to_lowercase.outputs.DOCKER_NAME }}-${{ inputs.environment }}-image:${{ env.TIMESTAMP }}
+
