@@ -17,8 +17,13 @@ on:
       environment:
         required: true
         type: string
+      docker_path:
+        required: false
+        default: "."
+        type: string
       docker_file:
-        required: true
+        required: false
+        default: "Dockerfile"
         type: string
       config_file:
         required: true
@@ -87,7 +92,7 @@ jobs:
 
     # Build the image
     - name: Build Docker image
-      run: docker build . --file ${{ inputs.docker_file }} --tag ${{ steps.convert_to_lowercase.outputs.DOCKER_NAME }}-${{ inputs.environment }}-image:${{ env.TIMESTAMP }}  --build-arg username=${{ env.NUGET_USERNAME }} --build-arg token=${{ env.NUGET_TOKEN }}
+      run: docker build ${{ inputs.docker_path }} --file ${{ inputs.docker_path }}/${{ inputs.docker_file }} --tag ${{ steps.convert_to_lowercase.outputs.DOCKER_NAME }}-${{ inputs.environment }}-image:${{ env.TIMESTAMP }}  --build-arg username=${{ env.NUGET_USERNAME }} --build-arg token=${{ env.NUGET_TOKEN }}
 
     - name: Stop old Docker container
       run:

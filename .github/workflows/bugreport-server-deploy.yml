@@ -41,7 +41,7 @@ jobs:
     uses: ./.github/workflows/internal-deploy-step.yml
     with:
       environment: staging
-      docker_file: "Server/Dockerfile"
+      docker_path: "Server"
       config_file: "Server/Config/appsettings.Production.json"
     secrets: inherit
 
@@ -51,7 +51,7 @@ jobs:
     uses: ./.github/workflows/internal-deploy-step.yml
     with:
       environment: production
-      docker_file: "Server/Dockerfile"
+      docker_path: "Server"
       config_file: "Server/Config/appsettings.Production.json"
     secrets: inherit
     needs: staging
