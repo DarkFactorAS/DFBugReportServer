@@ -4,6 +4,8 @@
 #
 
 name: Bug Report Server - Deploy
+permissions:
+  contents: read
 
 defaults:
   run:
