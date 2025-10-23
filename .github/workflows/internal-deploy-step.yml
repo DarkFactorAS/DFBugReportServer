@@ -4,6 +4,9 @@
 
 name: Internal - Deploy Step
 
+permissions:
+  contents: read
+
 defaults:
   run:
     working-directory: .
