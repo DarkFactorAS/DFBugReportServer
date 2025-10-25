@@ -55,11 +55,9 @@ namespace BugReportServer.Repository
             }
             catch(Exception ex)
             {
-                // For now just show the callstack
+                // For now just show the call stack
                 model.errorCode = 666;
                 model.message = ex.ToString();
-
-                throw ex;
             }
             return model;
         }
@@ -91,7 +89,7 @@ namespace BugReportServer.Repository
             }
             catch(Exception ex)
             {
-                throw ex;
+                _logger.LogException("Error occurred while getting bug report", ex);
             }
             return null;
         }
@@ -115,7 +113,7 @@ namespace BugReportServer.Repository
             }
             catch(Exception ex)
             {
-                throw ex;
+                _logger.LogException("Error occurred while getting bug report filename", ex);
             }
             return null;
         }
@@ -133,7 +131,7 @@ namespace BugReportServer.Repository
             }
             catch(Exception ex)
             {
-                throw ex;
+                _logger.LogException("Error occurred while deleting bugreport files", ex);
             }
         }
 
@@ -150,7 +148,7 @@ namespace BugReportServer.Repository
             }
             catch(Exception ex)
             {
-                throw ex;
+                _logger.LogException("Error occurred while deleting bug report", ex);
             }
        }
     }
