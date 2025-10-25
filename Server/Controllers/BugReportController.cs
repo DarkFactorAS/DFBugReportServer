@@ -7,12 +7,11 @@ using Microsoft.Extensions.Logging;
 
 using BugReportServer.Model;
 using BugReportServer.Provider;
+using DFCommonLib.HttpApi;
 
 namespace BugReportServer.Controllers
 {
-    [ApiController]
-    [Route("[controller]")]
-    public class BugReportController : ControllerBase
+    public class BugReportController : DFRestServerController
     {
         IBugReportAPIProvider _provider;
 
@@ -33,6 +32,11 @@ namespace BugReportServer.Controllers
         public BugReponseFileData AttachFile(BugReportFileData fileData)
         {
             return _provider.AttachFile(fileData);
+        }
+
+        public override string Version()
+        {
+            return Program.AppVersion;
         }
     }
 }
