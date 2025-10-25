@@ -131,7 +131,7 @@ namespace BugReportServer.Repository
             }
             catch(Exception ex)
             {
-                _logger.LogException("Error occurred while deleting bugreport files", ex);
+                _logger.LogException("Error occurred while deleting bug report files", ex);
             }
         }
 
