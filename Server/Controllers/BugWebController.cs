@@ -12,22 +12,13 @@ using DFCommonLib.HttpApi;
 
 namespace BugReportServer.Controllers
 {
-    [ApiController]
-    [Route("[controller]")]
-    public class BugWebController : ControllerBase
+    public class BugWebController : DFRestServerController
     {
         IBugReportWebProvider _provider;
 
         public BugWebController(IBugReportWebProvider provider)
         {
             _provider = provider;
-        }
-
-        [HttpGet]
-        [Route("PingServer")]
-        public string PingServer()
-        {
-            return _provider.PingServer();
         }
 
         [HttpGet]
@@ -49,6 +40,11 @@ namespace BugReportServer.Controllers
         public WebAPIData DeleteBugReport(int bugReportId)
         {
             return _provider.DeleteBugReport(bugReportId);
+        }
+
+        public override string Version()
+        {
+            return Program.AppVersion;
         }
     }
 }
