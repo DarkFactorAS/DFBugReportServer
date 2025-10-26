@@ -28,6 +28,9 @@ on:
       config_file:
         required: true
         type: string
+      project_name:
+        required: true
+        type: string
 
 jobs:
   deploy:
@@ -49,7 +52,6 @@ jobs:
       EXTERNAL_PORT: ${{ vars.EXTERNAL_PORT }}
       # Repository Variables:
       DATABASE_USERNAME: ${{ vars.DATABASE_USERNAME }}
-      PROJECT_NAME: ${{ vars.PROJECT_NAME }}
       # Organization Secrets:
       DATABASE_SERVER: ${{ secrets.DATABASE_SERVER }}
       NUGET_USERNAME: ${{ secrets.NUGET_USERNAME }}
@@ -72,7 +74,7 @@ jobs:
     - name: Convert Docker name to lowercase
       id: convert_to_lowercase
       run: |
-        UPPERCASE_VAR="${{ env.PROJECT_NAME }}"
+        UPPERCASE_VAR="${{ inputs.project_name }}"
         DOCKER_NAME="${UPPERCASE_VAR,,}" # The ,, converts to lowercase
         echo "DOCKER_NAME=$DOCKER_NAME" >> $GITHUB_OUTPUT
 

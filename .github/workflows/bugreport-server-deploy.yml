@@ -43,6 +43,7 @@ jobs:
       environment: staging
       docker_path: "Server"
       config_file: "Server/Config/appsettings.Production.json"
+      project_name: "BugReportServer"
     secrets: inherit
 
   production:
@@ -53,5 +54,6 @@ jobs:
       environment: production
       docker_path: "Server"
       config_file: "Server/Config/appsettings.Production.json"
+      project_name: "BugReportServer"
     secrets: inherit
     needs: staging
