@@ -44,7 +44,7 @@ jobs:
       docker_path: "BugReportWeb"
       config_file: "BugReportWeb/Config/appsettings.Production.json"
       project_name: "BugReportWeb"
-      external_port: ${{ vars.WEB_EXTERNAL_PORT }}
+      external_port: 8005
     secrets: inherit
 
   production:
@@ -56,6 +56,6 @@ jobs:
       docker_path: "BugReportWeb"
       config_file: "BugReportWeb/Config/appsettings.Production.json"
       project_name: "BugReportWeb"
-      external_port: ${{ vars.WEB_EXTERNAL_PORT }}
+      external_port: 9005
     secrets: inherit
     needs: staging
