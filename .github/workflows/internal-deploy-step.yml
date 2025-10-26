@@ -59,7 +59,7 @@ jobs:
       EXTERNAL_PORT: ${{ inputs.external_port }}
       # Repository Variables:
       DATABASE_USERNAME: ${{ vars.DATABASE_USERNAME }}
-      BUGREPORT_SERVER_URL: ${{ vars.BUGREPORT_SERVER_URL }}:${{ inputs.server_external_port }}
+      BUGREPORT_SERVER_URL: ${{ vars.BUGREPORT_SERVER_URL }}${{ inputs.server_external_port && inputs.server_external_port != 0 && format(':{0}', inputs.server_external_port) || '' }}
       # Organization Secrets:
       DATABASE_SERVER: ${{ secrets.DATABASE_SERVER }}
       NUGET_USERNAME: ${{ secrets.NUGET_USERNAME }}
