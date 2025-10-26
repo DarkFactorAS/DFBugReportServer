@@ -28,6 +28,12 @@ on:
       config_file:
         required: true
         type: string
+      project_name:
+        required: true
+        type: string
+      external_port:
+        required: true
+        type: number
 
 jobs:
   deploy:
@@ -46,10 +52,10 @@ jobs:
       # Environment Variables:
       DATABASE_NAME: ${{ vars.DATABASE_NAME }}
       DATABASE_PORT: ${{ vars.DATABASE_PORT }}
-      EXTERNAL_PORT: ${{ vars.EXTERNAL_PORT }}
+      EXTERNAL_PORT: ${{ inputs.external_port }}
       # Repository Variables:
       DATABASE_USERNAME: ${{ vars.DATABASE_USERNAME }}
-      PROJECT_NAME: ${{ vars.PROJECT_NAME }}
+      BUGREPORT_SERVER_URL: ${{ vars.BUGREPORT_SERVER_URL }}:${{ vars.SERVER_EXTERNAL_PORT }}
       # Organization Secrets:
       DATABASE_SERVER: ${{ secrets.DATABASE_SERVER }}
       NUGET_USERNAME: ${{ secrets.NUGET_USERNAME }}
@@ -72,7 +78,7 @@ jobs:
     - name: Convert Docker name to lowercase
       id: convert_to_lowercase
       run: |
-        UPPERCASE_VAR="${{ env.PROJECT_NAME }}"
+        UPPERCASE_VAR="${{ inputs.project_name }}"
         DOCKER_NAME="${UPPERCASE_VAR,,}" # The ,, converts to lowercase
         echo "DOCKER_NAME=$DOCKER_NAME" >> $GITHUB_OUTPUT
 
@@ -88,6 +94,7 @@ jobs:
         DATABASE.USERNAME: ${{ env.DATABASE_USERNAME }}
         DATABASE.PASSWORD: ${{ env.DATABASE_PASSWORD }}
         DATABASE.NAME: ${{ env.DATABASE_NAME }}
+        BUGREPORTSERVER.URL: ${{ env.BUGREPORT_SERVER_URL }}
         _output-file: ${{ inputs.config_file }}
 
     # Build the image
