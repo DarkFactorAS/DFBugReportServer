@@ -45,6 +45,7 @@ jobs:
       config_file: "BugReportWeb/Config/appsettings.Production.json"
       project_name: "BugReportWeb"
       external_port: 8005
+      server_external_port: 8004
     secrets: inherit
 
   production:
@@ -57,5 +58,6 @@ jobs:
       config_file: "BugReportWeb/Config/appsettings.Production.json"
       project_name: "BugReportWeb"
       external_port: 9005
+      server_external_port: 9004
     secrets: inherit
     needs: staging

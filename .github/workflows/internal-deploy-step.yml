@@ -34,6 +34,10 @@ on:
       external_port:
         required: true
         type: number
+      server_external_port:
+        required: false
+        type: number
+        default: 0
 
 jobs:
   deploy:
@@ -55,7 +59,7 @@ jobs:
       EXTERNAL_PORT: ${{ inputs.external_port }}
       # Repository Variables:
       DATABASE_USERNAME: ${{ vars.DATABASE_USERNAME }}
-      BUGREPORT_SERVER_URL: ${{ vars.BUGREPORT_SERVER_URL }}:${{ vars.SERVER_EXTERNAL_PORT }}
+      BUGREPORT_SERVER_URL: ${{ vars.BUGREPORT_SERVER_URL }}:${{ inputs.server_external_port }}
       # Organization Secrets:
       DATABASE_SERVER: ${{ secrets.DATABASE_SERVER }}
       NUGET_USERNAME: ${{ secrets.NUGET_USERNAME }}
