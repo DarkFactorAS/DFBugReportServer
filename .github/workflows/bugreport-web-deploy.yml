@@ -19,6 +19,8 @@ on:
   release:
     types: [published]
 
+  push:
+
   pull_request:
     types: [closed]
     branches: ["master"]
