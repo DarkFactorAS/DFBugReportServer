@@ -55,6 +55,7 @@ jobs:
       EXTERNAL_PORT: ${{ inputs.external_port }}
       # Repository Variables:
       DATABASE_USERNAME: ${{ vars.DATABASE_USERNAME }}
+      BUGREPORT_SERVER_URL: ${{ vars.BUGREPORT_SERVER_URL }}:${{ vars.SERVER_EXTERNAL_PORT }}
       # Organization Secrets:
       DATABASE_SERVER: ${{ secrets.DATABASE_SERVER }}
       NUGET_USERNAME: ${{ secrets.NUGET_USERNAME }}
@@ -93,6 +94,7 @@ jobs:
         DATABASE.USERNAME: ${{ env.DATABASE_USERNAME }}
         DATABASE.PASSWORD: ${{ env.DATABASE_PASSWORD }}
         DATABASE.NAME: ${{ env.DATABASE_NAME }}
+        BUGREPORTSERVER.URL: ${{ env.BUGREPORT_SERVER_URL }}
         _output-file: ${{ inputs.config_file }}
 
     # Build the image
