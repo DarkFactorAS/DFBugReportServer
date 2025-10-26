@@ -44,6 +44,7 @@ jobs:
       docker_path: "Server"
       config_file: "Server/Config/appsettings.Production.json"
       project_name: "BugReportServer"
+      external_port: ${{ vars.SERVER_EXTERNAL_PORT }}
     secrets: inherit
 
   production:
@@ -55,5 +56,6 @@ jobs:
       docker_path: "Server"
       config_file: "Server/Config/appsettings.Production.json"
       project_name: "BugReportServer"
+      external_port: ${{ vars.SERVER_EXTERNAL_PORT }}
     secrets: inherit
     needs: staging

@@ -31,6 +31,9 @@ on:
       project_name:
         required: true
         type: string
+      external_port:
+        required: true
+        type: string
 
 jobs:
   deploy:
@@ -49,7 +52,7 @@ jobs:
       # Environment Variables:
       DATABASE_NAME: ${{ vars.DATABASE_NAME }}
       DATABASE_PORT: ${{ vars.DATABASE_PORT }}
-      EXTERNAL_PORT: ${{ vars.EXTERNAL_PORT }}
+      EXTERNAL_PORT: ${{ inputs.external_port }}
       # Repository Variables:
       DATABASE_USERNAME: ${{ vars.DATABASE_USERNAME }}
       # Organization Secrets:
