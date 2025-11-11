@@ -1,0 +1,56 @@
+#
+# Build Deploy file for Docker container
+# Change the variables in this section to match your project
+#
+
+name: Bug Report Server - Deploy
+permissions:
+  contents: read
+
+defaults:
+  run:
+    working-directory: .
+    
+#
+# Everything below this is template code
+#
+
+on:
+  release:
+    types: [published]
+
+  pull_request:
+    types: [closed]
+    branches: ["master"]
+
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Environment to deploy to'
+        required: true
+        default: 'staging'
+        type: choice
+        options:
+          - staging
+          - production
+
+jobs:
+
+  staging:
+    if: github.event.pull_request.merged == true || github.event.inputs.environment == 'staging' || github.event.inputs.environment == 'production'
+    name: Deploy to Staging
+    uses: DarkFactorAS/Infrastructure/.github/workflows/infrastructure-deploy-server.yml@server_build
+    with:
+      environment: staging
+      project_name: "BugReportServer"
+    secrets: inherit
+
+  production:
+    if: github.event.pull_request.merged == true || github.event.inputs.environment == 'production' || github.event_name == 'release'
+    name: Deploy to Production
+    uses: DarkFactorAS/Infrastructure/.github/workflows/infrastructure-deploy-server.yml@server_build
+    with:
+      environment: production
+      project_name: "BugReportServer"
+    secrets: inherit
+    needs: staging

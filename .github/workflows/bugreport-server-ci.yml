@@ -1,0 +1,31 @@
+name: BugReport Server - CI Docker Container
+
+on:
+  push:
+    paths:
+      - 'Server/**'
+      - '.github/workflows/bugreport-server-ci.yml'
+
+  pull_request:
+  workflow_dispatch:
+
+env:
+  IMAGE_NAME: bugreportserverimage
+  
+jobs:
+
+  build:
+    # 15 minute timeout
+    timeout-minutes: 15
+
+    # Use a self-hosted runner
+    runs-on: self-hosted
+
+    # Check out code from the repository
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4      
+
+    # Build the Docker image
+    - name: Build Docker image
+      run: docker build Server/ --file Server/Dockerfile --tag ${{ env.IMAGE_NAME }}:CI-$(date +%s)  --build-arg username=${{ secrets.NUGET_USERNAME }} --build-arg token=${{ secrets.NUGET_TOKEN }}
